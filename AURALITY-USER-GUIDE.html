@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aurality Studio — The Complete User Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-code: #1a1a2e;
+      --border: #2a2a40;
+      --text: #e8e8f0;
+      --text-dim: #9999bb;
+      --cyan: #00e5ff;
+      --magenta: #ff0066;
+      --orange: #ff6600;
+      --green: #00ff88;
+      --yellow: #ffcc00;
+      --purple: #aa66ff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    /* ===== Scrollbar ===== */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+
+    /* ===== Hero ===== */
+    .hero {
+      text-align: center;
+      padding: 80px 24px 60px;
+      background: linear-gradient(180deg, #0f0f1a 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: 6px;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--text-dim);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-tagline {
+      font-size: 20px;
+      color: var(--text);
+      max-width: 700px;
+      margin: 0 auto;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .hero-tagline em {
+      color: var(--cyan);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* ===== Navigation ===== */
+    .toc {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    .toc h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 20px;
+    }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .toc-item {
+      display: block;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .toc-item:hover {
+      border-color: var(--cyan);
+      background: #16162a;
+      transform: translateY(-1px);
+    }
+    .toc-part {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--magenta);
+      text-transform: uppercase;
+    }
+    .toc-name {
+      font-size: 15px;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    /* ===== Content ===== */
+    .content {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .part {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+    .part:first-child { border-top: none; margin-top: 40px; }
+
+    .part-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 24px;
+      line-height: 1.3;
+    }
+
+    h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--cyan);
+      margin: 40px 0 16px;
+    }
+
+    h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--orange);
+      margin: 28px 0 12px;
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    strong { color: var(--cyan); font-weight: 600; }
+
+    em { color: var(--yellow); font-style: italic; }
+
+    /* ===== Callout Boxes ===== */
+    .callout {
+      background: var(--bg-card);
+      border-left: 3px solid var(--cyan);
+      border-radius: 0 8px 8px 0;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .callout.tip { border-left-color: var(--green); }
+    .callout.philosophy { border-left-color: var(--purple); background: linear-gradient(135deg, #12101f, #1a1230); }
+    .callout.warning { border-left-color: var(--orange); }
+    .callout.plain-english { border-left-color: var(--yellow); }
+    .callout-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .callout.tip .callout-title { color: var(--green); }
+    .callout.philosophy .callout-title { color: var(--purple); }
+    .callout.warning .callout-title { color: var(--orange); }
+    .callout.plain-english .callout-title { color: var(--yellow); }
+    .callout p:last-child { margin-bottom: 0; }
+
+    /* ===== Steps ===== */
+    .step {
+      display: flex;
+      gap: 16px;
+      margin: 20px 0;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      border-radius: 50%;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+    }
+    .step-content { flex: 1; padding-top: 6px; }
+
+    /* ===== Lists ===== */
+    ul, ol { margin: 16px 0; padding-left: 24px; }
+    li { margin-bottom: 8px; }
+    li::marker { color: var(--cyan); }
+
+    /* ===== Code / Keyboard ===== */
+    code, kbd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      background: var(--bg-code);
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: var(--cyan);
+      border: 1px solid var(--border);
+    }
+    kbd {
+      background: #222240;
+      color: var(--yellow);
+      border-bottom-width: 2px;
+    }
+
+    /* ===== Tables ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+    th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 12px 16px;
+      background: var(--bg-code);
+      color: var(--cyan);
+      border: 1px solid var(--border);
+    }
+    td {
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+    /* ===== Diagrams ===== */
+    .diagram {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      margin: 24px 0;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 2;
+      color: var(--text-dim);
+      overflow-x: auto;
+    }
+    .diagram .highlight { color: var(--cyan); font-weight: 600; }
+    .diagram .accent { color: var(--magenta); font-weight: 600; }
+    .diagram .warm { color: var(--orange); font-weight: 600; }
+
+    /* ===== Waveform Visuals ===== */
+    .wave-demo {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .wave-card {
+      flex: 1;
+      min-width: 140px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .wave-card svg {
+      width: 100%;
+      height: 60px;
+      margin-bottom: 8px;
+    }
+    .wave-card .wave-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--cyan);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .wave-card .wave-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* ===== Layout Diagram ===== */
+    .layout-demo {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      margin: 24px 0;
+    }
+    .layout-box {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+    .layout-box.deck-a-demo { border-color: var(--cyan); }
+    .layout-box.mixer-demo { border-color: var(--purple); }
+    .layout-box.deck-b-demo { border-color: var(--magenta); }
+    .layout-box .label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .layout-box.deck-a-demo .label { color: var(--cyan); }
+    .layout-box.mixer-demo .label { color: var(--purple); }
+    .layout-box.deck-b-demo .label { color: var(--magenta); }
+
+    .library-demo {
+      background: var(--bg-card);
+      border: 2px solid var(--green);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .library-demo .label { color: var(--green); font-size: 11px; letter-spacing: 2px; }
+
+    /* ===== Song Structure ===== */
+    .song-structure {
+      display: flex;
+      gap: 4px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .song-block {
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+      flex: 1;
+      min-width: 80px;
+    }
+    .song-block.intro { background: #1a2a1a; color: var(--green); border: 1px solid #2a4a2a; }
+    .song-block.verse { background: #1a1a2a; color: var(--cyan); border: 1px solid #2a2a4a; }
+    .song-block.chorus { background: #2a1a2a; color: var(--magenta); border: 1px solid #4a2a4a; }
+    .song-block.bridge { background: #2a2a1a; color: var(--yellow); border: 1px solid #4a4a2a; }
+    .song-block.outro { background: #1a2a1a; color: var(--green); border: 1px solid #2a4a2a; }
+    .song-block.drop { background: #2a0a0a; color: var(--orange); border: 1px solid #4a2a1a; }
+
+    /* ===== Energy Arc ===== */
+    .energy-arc {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+    .energy-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 120px;
+      margin-bottom: 8px;
+    }
+    .energy-bar div {
+      flex: 1;
+      border-radius: 4px 4px 0 0;
+      transition: height 0.3s;
+    }
+    .energy-labels {
+      display: flex;
+      gap: 4px;
+      font-size: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      text-align: center;
+    }
+    .energy-labels div { flex: 1; }
+
+    /* ===== Curriculum Map ===== */
+    .curriculum {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .course-card {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .course-code {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-code);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--cyan);
+      padding: 12px;
+      text-align: center;
+    }
+    .course-info { padding: 12px 16px; }
+    .course-info .course-name {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .course-info .course-equiv {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      padding: 60px 24px;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+    }
+    .footer-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .footer-credit {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.8;
+    }
+    .footer-philosophy {
+      max-width: 600px;
+      margin: 24px auto 0;
+      font-size: 15px;
+      font-style: italic;
+      color: var(--purple);
+      line-height: 1.7;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 700px) {
+      .layout-demo { grid-template-columns: 1fr; }
+      .wave-demo { flex-direction: column; }
+      .song-structure { flex-direction: column; }
+      .course-card { grid-template-columns: 1fr; }
+      .course-code { padding: 8px; }
+      body { font-size: 16px; }
+    }
+
+    /* ===== Glossary ===== */
+    .glossary-term {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #1a1a2a;
+    }
+    .glossary-term:last-child { border-bottom: none; }
+    .glossary-word {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--cyan);
+      font-size: 15px;
+    }
+    .glossary-def { color: var(--text); font-size: 15px; margin-top: 4px; }
+
+    /* ===== Print ===== */
+    @media print {
+      body { background: #fff; color: #000; font-size: 12pt; }
+      .hero { background: none; border-bottom: 2px solid #000; }
+      .hero-title, .footer-logo { color: #000; -webkit-text-fill-color: #000; }
+      .callout { border: 1px solid #ccc; background: #f5f5f5; }
+      code, kbd { background: #f0f0f0; border-color: #ccc; color: #000; }
+      th { background: #e0e0e0; color: #000; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-title">AURALITY STUDIO</div>
+  <div class="hero-subtitle">The Complete User Guide</div>
+  <div class="hero-tagline">
+    From <em>"I've never made music before"</em> to <em>"I just moved a room full of people."</em><br>
+    This guide is your bridge. Every person on Earth has music inside them. Let's bring yours out.
+  </div>
+</div>
+
+<!-- ===== TABLE OF CONTENTS ===== -->
+<div class="toc">
+  <h2>What's Inside</h2>
+  <div class="toc-grid">
+    <a href="#part1" class="toc-item">
+      <div class="toc-part">Part 1</div>
+      <div class="toc-name">Welcome -- You Already Have Everything You Need</div>
+    </a>
+    <a href="#part2" class="toc-item">
+      <div class="toc-part">Part 2</div>
+      <div class="toc-name">Understanding Sound (The Science Made Simple)</div>
+    </a>
+    <a href="#part3" class="toc-item">
+      <div class="toc-part">Part 3</div>
+      <div class="toc-name">Your First 10 Minutes in Aurality</div>
+    </a>
+    <a href="#part4" class="toc-item">
+      <div class="toc-part">Part 4</div>
+      <div class="toc-name">The Basics -- Playing, Mixing, Blending</div>
+    </a>
+    <a href="#part5" class="toc-item">
+      <div class="toc-part">Part 5</div>
+      <div class="toc-name">Making It Sound Professional</div>
+    </a>
+    <a href="#part6" class="toc-item">
+      <div class="toc-part">Part 6</div>
+      <div class="toc-name">The 808 Drum Machine -- Making Beats From Scratch</div>
+    </a>
+    <a href="#part7" class="toc-item">
+      <div class="toc-part">Part 7</div>
+      <div class="toc-name">Song Structure -- How Hit Songs Are Built</div>
+    </a>
+    <a href="#part8" class="toc-item">
+      <div class="toc-part">Part 8</div>
+      <div class="toc-name">Recording Your Performance</div>
+    </a>
+    <a href="#part9" class="toc-item">
+      <div class="toc-part">Part 9</div>
+      <div class="toc-name">Using Your DDJ-400 Controller</div>
+    </a>
+    <a href="#part10" class="toc-item">
+      <div class="toc-part">Part 10</div>
+      <div class="toc-name">The Philosophy of Music That Matters</div>
+    </a>
+    <a href="#part11" class="toc-item">
+      <div class="toc-part">Part 11</div>
+      <div class="toc-name">Your Learning Path (College-Equivalent Curriculum)</div>
+    </a>
+    <a href="#appendix-a" class="toc-item">
+      <div class="toc-part">Appendix A</div>
+      <div class="toc-name">Keyboard Shortcuts</div>
+    </a>
+    <a href="#appendix-b" class="toc-item">
+      <div class="toc-part">Appendix B</div>
+      <div class="toc-name">Glossary</div>
+    </a>
+    <a href="#appendix-c" class="toc-item">
+      <div class="toc-part">Appendix C</div>
+      <div class="toc-name">Troubleshooting</div>
+    </a>
+  </div>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<div class="content">
+
+<!-- ==================== PART 1 ==================== -->
+<div class="part" id="part1">
+  <div class="part-label">Part 1</div>
+  <h2>Welcome -- You Already Have Everything You Need</h2>
+
+  <p>Right now, wherever you are, whoever you are, whatever you have or don't have -- you have what it takes to make music. Not someday. Right now.</p>
+
+  <p>You don't need a music degree. You don't need expensive equipment. You don't need someone to say it's okay. The music that lives inside you doesn't care about any of that. It's been waiting for you to let it out.</p>
+
+  <p>Aurality Studio was built for you. Not for people who already know how to produce. Not for people with studio budgets. For <strong>you</strong> -- the person reading this who has always felt something when a song hits just right, who has always wanted to make something that feels like that, and who maybe never believed they could.</p>
+
+  <p>You can. And this guide will show you how.</p>
+
+  <div class="callout philosophy">
+    <div class="callout-title">The Soul of This Project</div>
+    <p>Music is a universal language. Before money, before borders, before all the walls we built between each other -- there was rhythm, melody, and the human voice. Music reconnects us to what's real: that we are all one, all connected, all deserving of love and access to the tools we need to create.</p>
+    <p>As above, so below. Your personal story IS the universal story. When you make music from your real experience -- your joy, your struggle, your questions, your love -- you speak a truth that someone out there desperately needs to hear.</p>
+  </div>
+
+  <h3>What Aurality Gives You (For Free, Forever)</h3>
+
+  <ul>
+    <li><strong>Two full DJ decks</strong> -- like having two record players side by side</li>
+    <li><strong>A professional mixer</strong> -- to blend songs together smoothly</li>
+    <li><strong>An 808 drum machine</strong> -- to make beats from scratch, right in your browser</li>
+    <li><strong>Professional effects</strong> -- reverb, delay, compression, AutoTune, and more</li>
+    <li><strong>A recording system</strong> -- capture everything you make and share it</li>
+    <li><strong>AI-powered assistance</strong> -- suggestions for what song to play next and how to blend them</li>
+    <li><strong>Works offline</strong> -- once loaded, it runs without internet. It's yours</li>
+    <li><strong>MIDI controller support</strong> -- plug in a DDJ-400 and feel the music with your hands</li>
+  </ul>
+
+  <p>All of it runs right in your web browser. No downloads. No subscriptions. No expiration dates. No one can take it away from you.</p>
+
+  <h3>What This Guide Will Teach You</h3>
+
+  <p>By the time you finish this guide, you will know:</p>
+
+  <ul>
+    <li>How sound works (the actual science, explained simply)</li>
+    <li>How to mix two songs together so they sound like one continuous experience</li>
+    <li>How to use professional effects to shape sound the way studios do</li>
+    <li>How to make beats from scratch using drum synthesis</li>
+    <li>How hit songs are structured -- and how to build your own</li>
+    <li>How to record your performances and share them with the world</li>
+    <li>How to use a physical DJ controller</li>
+  </ul>
+
+  <p>This is not a watered-down overview. This is the equivalent of a college music production course. The same knowledge that students pay thousands of dollars to learn. We're giving it to you because <strong>ideas belong to everyone, not the few</strong>.</p>
+
+  <h3>The Weatherspoon Brother and Sister' Story</h3>
+
+  <p>Aurality Studio was built by the Weatherspoon Brother and Sister -- people who believe that creation is a birthright, not a privilege. They saw a world where the best music tools cost hundreds or thousands of dollars, where knowledge was locked behind expensive degrees, and where talented people were told "you can't" simply because of their zip code or their bank account.</p>
+
+  <p>They said: that stops now.</p>
+
+  <p>Every feature in Aurality Studio, every line of code, every word in this guide exists because of one belief: <em>every person on Earth deserves the tools to express what's inside them</em>. Copyleft. Open source. Ideas belong to everyone.</p>
+
+  <p>This is for the kid in the apartment with nothing but a laptop and a dream. This is for the adult who always wanted to try but thought the window had closed. This is for anyone who has ever heard a song and thought, "I wish I could do that."</p>
+
+  <p>You can. Let's begin.</p>
+</div>
+
+<!-- ==================== PART 2 ==================== -->
+<div class="part" id="part2">
+  <div class="part-label">Part 2</div>
+  <h2>Understanding Sound (The Science Made Simple)</h2>
+
+  <p>Before you drive a car, it helps to know what the gas pedal and brakes do. Before you make music, it helps to know what sound actually is. Don't worry -- this isn't a physics class. We're going to keep it real.</p>
+
+  <h3>What Sound Actually Is</h3>
+
+  <p>Imagine dropping a rock into a still pond. Ripples spread out from the center in every direction. Sound works exactly the same way, except instead of ripples in water, you get ripples in air.</p>
+
+  <p>When a speaker vibrates, it pushes air molecules back and forth. Those vibrations travel through the air and reach your ear. Your ear turns those vibrations into signals your brain understands as sound. That's it. Sound is just air vibrating.</p>
+
+  <div class="callout plain-english">
+    <div class="callout-title">What It Actually Means</div>
+    <p>Every song you've ever loved, every voice that's ever moved you, every beat that's ever made you dance -- it's all just air vibrating in patterns. And you're about to learn how to control those patterns.</p>
+  </div>
+
+  <h3>Frequency = Pitch</h3>
+
+  <p>How fast the air vibrates determines how <strong>high or low</strong> a sound is. We measure this in <strong>Hertz (Hz)</strong>, which just means "vibrations per second."</p>
+
+  <ul>
+    <li><strong>Low frequency (20-200 Hz)</strong> -- Deep sounds. Bass. The rumble you feel in your chest at a concert. Think of a bass guitar, a kick drum, or thunder.</li>
+    <li><strong>Mid frequency (200-4000 Hz)</strong> -- This is where most of the "body" of music lives. Vocals, guitars, pianos, most instruments sit here.</li>
+    <li><strong>High frequency (4000-20000 Hz)</strong> -- Bright, sparkly sounds. The shimmer of a cymbal, the "ssss" sounds in speech, the crispness of a hi-hat.</li>
+  </ul>
+
+  <p>Think of it like this: frequency is the <em>note</em> -- how high or low something sounds. A baby's cry is high frequency. A foghorn is low frequency.</p>
+
+  <h3>Amplitude = Volume</h3>
+
+  <p>If frequency is the pitch, amplitude is the <strong>loudness</strong>. Going back to the pond analogy: a bigger rock makes bigger ripples. In sound, more energy means a louder vibration.</p>
+
+  <p>Volume is measured in <strong>decibels (dB)</strong>. Here's a quick reference:</p>
+
+  <table>
+    <tr><th>Decibels</th><th>What It Sounds Like</th></tr>
+    <tr><td>0 dB</td><td>Silence</td></tr>
+    <tr><td>30 dB</td><td>A whisper</td></tr>
+    <tr><td>60 dB</td><td>Normal conversation</td></tr>
+    <tr><td>85 dB</td><td>Busy traffic (protect your ears above this!)</td></tr>
+    <tr><td>100 dB</td><td>Concert / club</td></tr>
+    <tr><td>120 dB</td><td>Threshold of pain</td></tr>
+  </table>
+
+  <h3>Waveforms -- The Shapes of Sound</h3>
+
+  <p>When we look at sound on a screen, we see <strong>waveforms</strong> -- visual shapes that represent how the air is vibrating. Different shapes produce different sounds. Here are the four basic ones you'll encounter:</p>
+
+  <div class="wave-demo">
+    <div class="wave-card">
+      <svg viewBox="0 0 200 60">
+        <path d="M0,30 Q25,0 50,30 Q75,60 100,30 Q125,0 150,30 Q175,60 200,30" fill="none" stroke="#00e5ff" stroke-width="2"/>
+      </svg>
+      <div class="wave-name">Sine Wave</div>
+      <div class="wave-desc">Pure, clean, smooth. Like a flute or whistle. The simplest sound that exists.</div>
+    </div>
+    <div class="wave-card">
+      <svg viewBox="0 0 200 60">
+        <path d="M0,50 L0,10 L50,10 L50,50 L50,50 L100,50 L100,10 L150,10 L150,50 L200,50 L200,10" fill="none" stroke="#ff0066" stroke-width="2"/>
+      </svg>
+      <div class="wave-name">Square Wave</div>
+      <div class="wave-desc">Buzzy, hollow, retro. Think old video game sounds. Great for synth leads.</div>
+    </div>
+    <div class="wave-card">
+      <svg viewBox="0 0 200 60">
+        <path d="M0,50 L50,10 L50,50 L100,10 L100,50 L150,10 L150,50 L200,10" fill="none" stroke="#ff6600" stroke-width="2"/>
+      </svg>
+      <div class="wave-name">Sawtooth Wave</div>
+      <div class="wave-desc">Bright, rich, full. The workhorse of synthesizers. Used in almost every genre.</div>
+    </div>
+    <div class="wave-card">
+      <svg viewBox="0 0 200 60">
+        <path d="M0,30 L25,10 L75,50 L125,10 L175,50 L200,30" fill="none" stroke="#00ff88" stroke-width="2"/>
+      </svg>
+      <div class="wave-name">Triangle Wave</div>
+      <div class="wave-desc">Soft, warm, mellow. Like a sine wave with a tiny bit of edge. Good for pads.</div>
+    </div>
+  </div>
+
+  <div class="callout plain-english">
+    <div class="callout-title">What It Actually Means</div>
+    <p>In Aurality's 808 synth, you'll choose between these waveforms. Each one gives your sound a different character -- smooth, buzzy, bright, or soft. There's no wrong choice. Pick the one that matches the feeling you want.</p>
+  </div>
+
+  <h3>BPM = The Heartbeat of Your Song</h3>
+
+  <p><strong>BPM</strong> stands for <strong>Beats Per Minute</strong>. It tells you how fast a song is. Think of it as the heartbeat of the music.</p>
+
+  <ul>
+    <li><strong>60 BPM</strong> = 1 beat per second. Slow and calm. Like a resting heartbeat.</li>
+    <li><strong>90 BPM</strong> = Hip-hop and R&B speed. Laid-back groove.</li>
+    <li><strong>120 BPM</strong> = 2 beats per second. House music, pop. Most dance music lives around here.</li>
+    <li><strong>140 BPM</strong> = Faster dance music, dubstep, drum and bass.</li>
+    <li><strong>170+ BPM</strong> = Very fast. Drum and bass, jungle.</li>
+  </ul>
+
+  <p>When you mix two songs together, they need to be running at the same speed -- the same BPM -- or they'll clash. It's like two people trying to walk side by side but at different speeds. Aurality can detect BPM automatically and help you match them.</p>
+
+  <h3>Musical Key = The Mood Palette of Your Song</h3>
+
+  <p>Every song is built around a <strong>key</strong> -- a set of notes that sound good together. Think of a key as a color palette for a painting. You can use any colors, but the ones in your palette naturally go together.</p>
+
+  <ul>
+    <li><strong>Major keys</strong> -- Sound happy, bright, uplifting. Think of a sunny day.</li>
+    <li><strong>Minor keys</strong> -- Sound deep, emotional, sometimes sad. Think of a rainy evening.</li>
+  </ul>
+
+  <p>When mixing songs, playing two songs in the same key (or a compatible key) makes the blend sound smooth and musical. Playing them in clashing keys sounds... well, you'll hear it. Trust your ears.</p>
+
+  <p>Aurality automatically detects the key of your songs and shows it right on the deck display. The AI assistant even suggests which songs will mix well together based on key compatibility.</p>
+</div>
+
+<!-- ==================== PART 3 ==================== -->
+<div class="part" id="part3">
+  <div class="part-label">Part 3</div>
+  <h2>Your First 10 Minutes in Aurality</h2>
+
+  <p>Enough theory. Let's get your hands on it. Here's exactly what to do, step by step.</p>
+
+  <h3>Opening the App</h3>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <p>Open Aurality Studio in your web browser (Chrome works best). You'll see a dark screen with the <strong>AURALITY STUDIO</strong> logo and a glowing <strong>START</strong> button.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <p>Click <strong>START</strong>. This wakes up the audio system in your browser (browsers require a click before they allow sound). The screen will fade and reveal the full application.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <p>You're in. Take a breath. Look around. Don't click anything yet. Just get a feel for the layout. It looks like a lot, but everything has a purpose, and you'll learn every piece.</p>
+    </div>
+  </div>
+
+  <h3>The Interface: Your Studio at a Glance</h3>
+
+  <p>Aurality is laid out like a real DJ setup. Here's the map:</p>
+
+  <div class="layout-demo">
+    <div class="layout-box deck-a-demo">
+      <div class="label">Deck A</div>
+      <p style="font-size:12px;color:var(--text-dim);">Left turntable. Your first song goes here. Waveform, controls, hot cues, effects.</p>
+    </div>
+    <div class="layout-box mixer-demo">
+      <div class="label">Mixer</div>
+      <p style="font-size:12px;color:var(--text-dim);">Center panel. Volume faders, EQ knobs, crossfader, filter. Controls the blend.</p>
+    </div>
+    <div class="layout-box deck-b-demo">
+      <div class="label">Deck B</div>
+      <p style="font-size:12px;color:var(--text-dim);">Right turntable. Your second song goes here. Mirror image of Deck A.</p>
+    </div>
+  </div>
+  <div class="library-demo">
+    <div class="label">Library (Bottom)</div>
+    <p style="font-size:12px;color:var(--text-dim);margin-top:4px;">Your music collection. Import songs, search, create playlists, load tracks to either deck.</p>
+  </div>
+
+  <h4>The Top Bar</h4>
+  <p>Across the very top, you'll see these buttons:</p>
+  <table>
+    <tr><th>Button</th><th>What It Does</th></tr>
+    <tr><td><code>REC</code></td><td>Starts and stops recording your entire mix</td></tr>
+    <tr><td><code>VJ</code></td><td>Opens a visual display that moves with the music</td></tr>
+    <tr><td><code>AI</code></td><td>Opens the AI assistant with song suggestions and transition tips</td></tr>
+    <tr><td><code>PRACTICE</code></td><td>Starts a practice session with guided exercises</td></tr>
+    <tr><td style="color:var(--orange);font-weight:bold;">808</td><td>Opens the drum machine / synthesizer panel</td></tr>
+    <tr><td><code>MASTER</code></td><td>Controls the overall volume of everything</td></tr>
+  </table>
+
+  <h3>Loading Your First Song</h3>
+
+  <p>You need music files on your computer -- MP3, WAV, FLAC, OGG, AAC, or M4A files all work.</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <p><strong>Drag and drop</strong> one or more audio files from your computer directly onto the Aurality window. You'll see a "Drop audio files to import" overlay appear. Release the files.</p>
+      <p>Or click the <strong>+ Import</strong> button in the library section at the bottom to choose files from your computer.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <p>Your songs will appear in the <strong>Library</strong> at the bottom. You'll see the artist name, title, BPM, key, duration, and genre listed in a table.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <p>To load a song to a deck, look at the <strong>Load</strong> column on the right side of the library table. Click the <strong>A</strong> button to load it to Deck A (left), or the <strong>B</strong> button to load it to Deck B (right).</p>
+      <p>You can also drag a file directly onto the left or right side of the screen to load it to that deck.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <p>Once loaded, the deck will show the <strong>waveform</strong> (a visual picture of the song), the <strong>BPM</strong>, the <strong>key</strong>, and the <strong>track name</strong>. The waveform is color-coded -- you can see where the loud and quiet parts are, where the bass drops, where vocals come in.</p>
+    </div>
+  </div>
+
+  <h3>Pressing Play</h3>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-content">
+      <p>Click the <strong>play button</strong> (the triangle) on Deck A. Or just press <kbd>Space</kbd> on your keyboard.</p>
+      <p>Music starts playing. The waveform scrolls. You're DJing.</p>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">Congratulations</div>
+    <p>That's not a small thing. You just loaded professional DJ software and played a track. Every expert started exactly where you are right now. The only difference between you and them is practice time. Keep going.</p>
+  </div>
+</div>
+
+<!-- ==================== PART 4 ==================== -->
+<div class="part" id="part4">
+  <div class="part-label">Part 4</div>
+  <h2>The Basics -- Playing, Mixing, Blending</h2>
+
+  <h3>What a "Deck" Is</h3>
+
+  <p>Imagine two record players sitting side by side on a table. A DJ puts a different vinyl record on each one. They play one record for the crowd while secretly getting the other one ready. Then they smoothly fade from one to the other, so the music never stops.</p>
+
+  <p>That's exactly what Aurality's two decks are -- except they're digital, and instead of vinyl records, you use audio files. Deck A is on the left. Deck B is on the right. You can play different songs on each one and blend between them.</p>
+
+  <h3>Play, Pause, and Cue</h3>
+
+  <table>
+    <tr><th>Button</th><th>What It Does</th><th>Real-World Analogy</th></tr>
+    <tr><td><strong>Play/Pause</strong></td><td>Starts or stops the song</td><td>Like hitting play/pause on your phone</td></tr>
+    <tr><td><strong>CUE</strong></td><td>Sets a bookmark and jumps back to it</td><td>Like putting your finger on a page in a book so you can find it again</td></tr>
+    <tr><td><strong>SYNC</strong></td><td>Matches this deck's speed to the other deck</td><td>Like a pace car that adjusts to match the car next to it</td></tr>
+    <tr><td><strong>SLIP</strong></td><td>Lets you do scratches and effects while the song secretly keeps playing underneath</td><td>Like pausing a movie, doing something, and unpausing right where you left off</td></tr>
+    <tr><td><strong>BRK</strong> (Brake)</td><td>Slows the song down to a stop, like a record player being turned off</td><td>That classic "wwwrrrr..." sound of a record stopping</td></tr>
+    <tr><td><strong>SPIN</strong> (Spinback)</td><td>Spins the song backwards quickly, then stops</td><td>Like a DJ pulling a vinyl record backward with their hand</td></tr>
+  </table>
+
+  <h3>BPM -- Why Songs Need to Match Speed</h3>
+
+  <p>Imagine two people clapping at different speeds. It sounds like a mess, right? That's what happens when you play two songs at different BPMs together. For a smooth mix, both songs need to be going at the same speed.</p>
+
+  <p>Here's the easy way to do it:</p>
+
+  <ol>
+    <li>Load a song on Deck A. Note its BPM (shown near the top of the deck).</li>
+    <li>Load a song on Deck B. Note its BPM.</li>
+    <li>If they're different, click the <strong>SYNC</strong> button on Deck B. This automatically adjusts Deck B's speed to match Deck A.</li>
+  </ol>
+
+  <p>That's it. One click. The songs are now running at the same speed.</p>
+
+  <div class="callout tip">
+    <div class="callout-title">Pro Tip</div>
+    <p>For the best results, pick songs that are already close in BPM. A song at 90 BPM won't sound right if you speed it up to 140 BPM -- it'll sound unnatural. Stick within about 5-10 BPM of each other.</p>
+  </div>
+
+  <h3>The Crossfader -- Your Blending Tool</h3>
+
+  <p>The crossfader is a horizontal slider at the bottom of the mixer (center panel). It's the most important control for mixing.</p>
+
+  <ul>
+    <li><strong>All the way left</strong> -- You hear only Deck A</li>
+    <li><strong>All the way right</strong> -- You hear only Deck B</li>
+    <li><strong>In the middle</strong> -- You hear both at equal volume</li>
+  </ul>
+
+  <p>To blend from one song to the next, slowly slide the crossfader from one side to the other while both songs are playing. The first song fades out while the second fades in. This is called a <strong>transition</strong>, and it's the most basic DJ move there is.</p>
+
+  <h4>Crossfader Curves</h4>
+  <p>Below the crossfader, there's a dropdown to choose the <strong>curve</strong>:</p>
+  <ul>
+    <li><strong>Smooth Curve</strong> -- Gradual, gentle blending. Great for beginners and long mixes.</li>
+    <li><strong>Sharp Cut</strong> -- Quick on/off switching. Used for scratching and hip-hop.</li>
+    <li><strong>Constant Power</strong> -- Volume stays even throughout the fade. Most professional sound.</li>
+  </ul>
+
+  <h3>EQ -- Shaping the Sound</h3>
+
+  <p>EQ stands for <strong>equalization</strong>. It lets you control the volume of different frequency ranges independently. In Aurality's mixer, each channel has three EQ knobs:</p>
+
+  <table>
+    <tr><th>Knob</th><th>What It Controls</th><th>Think of It As</th></tr>
+    <tr><td><strong>HI</strong></td><td>High frequencies (sparkle, crispness, hi-hats, vocal "s" sounds)</td><td>The glitter on top</td></tr>
+    <tr><td><strong>MID</strong></td><td>Middle frequencies (vocals, guitars, synths, the "body")</td><td>The meat of the sound</td></tr>
+    <tr><td><strong>LO</strong></td><td>Low frequencies (bass, kick drum, rumble)</td><td>The foundation, the weight</td></tr>
+  </table>
+
+  <p>Each knob goes from <strong>-26 dB</strong> (almost silent) to <strong>+6 dB</strong> (boosted). Double-click any EQ knob to reset it to zero.</p>
+
+  <div class="callout plain-english">
+    <div class="callout-title">What It Actually Means</div>
+    <p>When mixing two songs, you often don't want <em>both</em> bass lines playing at the same time -- it sounds muddy. The trick: turn down the LO on the incoming song, then as you fade it in, gradually bring the LO up on the new song while turning down the LO on the old one. The bass "swaps" from one song to the other. This is called an <strong>EQ transition</strong> and it's how the pros do it.</p>
+  </div>
+
+  <h3>Your First Blend -- Let's Do It</h3>
+
+  <ol>
+    <li>Load a song on <strong>Deck A</strong>. Press play (or press <kbd>Space</kbd>).</li>
+    <li>Load a second song on <strong>Deck B</strong>.</li>
+    <li>Click <strong>SYNC</strong> on Deck B so the speeds match.</li>
+    <li>Move the crossfader all the way to the left (so you only hear Deck A).</li>
+    <li>Press play on <strong>Deck B</strong> (or press <kbd>Enter</kbd>).</li>
+    <li>Now slowly slide the crossfader from left to right. Listen as the second song fades in and the first fades out.</li>
+    <li>When the crossfader reaches the right side, Deck B is now your main song.</li>
+  </ol>
+
+  <p>You just performed your first DJ transition. How does it feel?</p>
+
+  <h3>Hot Cues -- Bookmarking Your Favorite Moments</h3>
+
+  <p>Below each deck's controls, you'll see <strong>8 numbered pads</strong> labeled HOT CUES. These let you mark specific moments in a song and jump back to them instantly.</p>
+
+  <ul>
+    <li><strong>Set a hot cue:</strong> While a song is playing, click an empty pad (1-8). It saves that exact moment.</li>
+    <li><strong>Jump to a hot cue:</strong> Click a pad that's already set (it will be lit up). The song instantly jumps to that moment.</li>
+    <li><strong>Delete a hot cue:</strong> Right-click on a set pad to clear it.</li>
+  </ul>
+
+  <p>Use hot cues to mark the start of a chorus, a drop, or any moment you want quick access to. Professional DJs set their hot cues before they perform so they can jump around a song during a live set.</p>
+</div>
+
+<!-- ==================== PART 5 ==================== -->
+<div class="part" id="part5">
+  <div class="part-label">Part 5</div>
+  <h2>Making It Sound Professional</h2>
+
+  <p>Now that you can play and mix songs, let's learn how to make everything sound polished. This is where you go from "I'm playing two songs" to "I sound like I know what I'm doing."</p>
+
+  <h3>The Filter Sweep</h3>
+
+  <p>You know that "whoooosh" sound DJs make? Where the music seems to sweep from thin and tinny to full and boomy? That's a <strong>filter sweep</strong>.</p>
+
+  <p>Each channel has a <strong>FLT</strong> (filter) slider in the mixer.</p>
+
+  <ul>
+    <li><strong>Center position</strong> -- No filter. Normal sound.</li>
+    <li><strong>Slide left</strong> -- Low-pass filter. Cuts the high frequencies. Everything sounds muffled, like music playing in another room. Great for building tension.</li>
+    <li><strong>Slide right</strong> -- High-pass filter. Cuts the low frequencies. Everything sounds thin and airy. Great for creating anticipation before a drop.</li>
+  </ul>
+
+  <p>Try this: while a song is playing, slowly sweep the filter slider from center to the left (muffled), pause for a moment, then sweep it quickly back to center. That sudden return of full sound creates impact. DJs use this constantly.</p>
+
+  <h3>Effects Explained -- One by One</h3>
+
+  <p>Each deck has a row of effect buttons. Here's what every single one does, in plain language:</p>
+
+  <table>
+    <tr><th>Effect</th><th>Button</th><th>What It Does</th><th>Everyday Analogy</th></tr>
+    <tr><td><strong>Reverb</strong></td><td><code>REVERB</code></td><td>Adds the echo of a large space -- like a cathedral or concert hall</td><td>Singing in a big, empty church</td></tr>
+    <tr><td><strong>Delay</strong></td><td><code>DELAY</code></td><td>Repeats the sound at rhythmic intervals, like an echo that bounces back</td><td>Shouting into a canyon and hearing your voice come back</td></tr>
+    <tr><td><strong>Flanger</strong></td><td><code>FLANGE</code></td><td>Creates a sweeping, jet-like whoosh by playing a slightly delayed copy alongside the original</td><td>The sound of a jet plane flying over</td></tr>
+    <tr><td><strong>Phaser</strong></td><td><code>PHASE</code></td><td>Creates a swirling, shifting tone, like the sound is rotating around you</td><td>Being inside a washing machine of sound (in a good way)</td></tr>
+    <tr><td><strong>Chorus</strong></td><td><code>CHORUS</code></td><td>Makes one sound seem like multiple voices or instruments playing together</td><td>One singer sounding like a choir</td></tr>
+    <tr><td><strong>Bit Crusher</strong></td><td><code>CRUSH</code></td><td>Deliberately lowers the audio quality for a gritty, lo-fi, retro effect</td><td>Making clean audio sound like it's coming from an old video game</td></tr>
+    <tr><td><strong>Echo Out</strong></td><td><code>ECHO</code></td><td>The sound trails off into repeating echoes that fade away. Great for endings</td><td>A ball bouncing lower and lower until it stops</td></tr>
+    <tr><td><strong>Compressor</strong></td><td><code>COMP</code></td><td>Evens out the volume -- makes quiet parts louder and keeps loud parts from blowing up</td><td>An automatic volume knob that smooths everything out</td></tr>
+    <tr><td><strong>De-Esser</strong></td><td><code>DE-ESS</code></td><td>Tames harsh "ssss" and "shhhh" sounds in vocals</td><td>Taking the sharp edge off someone's "s" sounds</td></tr>
+  </table>
+
+  <p>To use any effect: just click its button. It lights up when active. Click again to turn it off.</p>
+
+  <h3>Stems -- Isolating Parts of a Song</h3>
+
+  <p>Each deck has four <strong>STEM</strong> buttons: BASS, DRUMS, VOX (vocals), and MELODY. These let you mute or unmute individual parts of a song in real-time.</p>
+
+  <ul>
+    <li>Click <strong>DRUMS</strong> to mute the drums. Click again to bring them back.</li>
+    <li>Click <strong>VOX</strong> to mute the vocals. Now you have an instrumental.</li>
+    <li>Try muting the bass on Song A and playing just the bass from Song B -- you're creating a live mashup.</li>
+  </ul>
+
+  <h3>Compression -- The Secret Weapon</h3>
+
+  <p>Compression is the single most important effect in professional music production. It's also the hardest to hear when it's working right -- which means it's doing its job.</p>
+
+  <p>Here's what compression does: imagine someone singing a song where they whisper in the verses and scream in the choruses. Without compression, you'd constantly be reaching for the volume knob -- turning it up for the quiet parts, turning it down for the loud parts. A compressor does that automatically, smoothing out the difference between quiet and loud.</p>
+
+  <div class="callout plain-english">
+    <div class="callout-title">What It Actually Means</div>
+    <p>Turn on the <code>COMP</code> effect to make your mix sound more even and polished. It keeps the loud parts from clipping (distorting) and brings up the quieter parts so you hear everything clearly. Every professional song you've ever heard has been compressed. Now yours can be too.</p>
+  </div>
+
+  <h3>EQ Mixing -- The Pro Technique</h3>
+
+  <p>Remember those HI, MID, and LO knobs? Here's how professionals use them during a transition:</p>
+
+  <ol>
+    <li>Song A is playing. Crossfader is centered or you're using channel faders.</li>
+    <li>Turn the <strong>LO</strong> knob on Song B all the way down before you bring it in.</li>
+    <li>Start playing Song B and blend it in.</li>
+    <li>When you're ready for the transition, <strong>swap the bass</strong>: turn the LO on Song B up while turning the LO on Song A down. Do this smoothly over 4-8 beats.</li>
+    <li>The bass shifts from one song to the other without ever getting muddy.</li>
+  </ol>
+
+  <p>This technique is called <strong>EQ swapping</strong> and it's the signature move of every professional DJ.</p>
+
+  <h3>The "Less Is More" Rule</h3>
+
+  <div class="callout warning">
+    <div class="callout-title">Golden Rule</div>
+    <p>Don't use every effect at once. Seriously. It's tempting -- you have all these cool buttons and you want to push them all. But the best-sounding mixes use effects <em>sparingly</em>. One effect at the right moment has ten times more impact than five effects running constantly.</p>
+    <p>Think of spices in cooking. A pinch of salt makes food delicious. The whole shaker makes it inedible. Same with audio effects.</p>
+  </div>
+</div>
+
+<!-- ==================== PART 6 ==================== -->
+<div class="part" id="part6">
+  <div class="part-label">Part 6</div>
+  <h2>The 808 Drum Machine -- Making Beats From Scratch</h2>
+
+  <h3>What an 808 Is and Why It Changed Music Forever</h3>
+
+  <p>In 1980, a Japanese company called Roland released a drum machine called the <strong>TR-808</strong>. It was supposed to help songwriters make demo recordings. But something unexpected happened -- musicians fell in love with its sounds, especially its deep, booming bass drum. The 808 kick became the foundation of hip-hop, trap, R&B, pop, and electronic music. Artists from Afrika Bambaataa to Kanye West to Travis Scott to Beyonce have built their sound on it. That deep "boom" you hear in almost every modern song? That's an 808.</p>
+
+  <p>Aurality Studio has a complete 808 drum machine built right in. You don't need to buy anything. Let's use it.</p>
+
+  <h3>Opening the 808 Panel</h3>
+
+  <p>Click the orange <strong>808</strong> button in the top bar. A panel opens in the center of the screen with a grid of pads and controls.</p>
+
+  <h3>The 6 Modes</h3>
+
+  <p>At the top of the 808 panel, you'll see mode buttons. Each mode turns the pads into a different instrument:</p>
+
+  <table>
+    <tr><th>Mode</th><th>Name</th><th>What It Does</th><th>Good For</th></tr>
+    <tr><td><strong>TR-808</strong></td><td>Classic 808</td><td>8 pads: Kick, Snare, Clap, Closed Hi-Hat, Open Hi-Hat, Low Tom, High Tom, Cowbell</td><td>Hip-hop, trap, R&B, boom-bap</td></tr>
+    <tr><td><strong>TR-909</strong></td><td>Classic 909</td><td>8 pads: Kick, Snare, Clap, Closed Hi-Hat, Open Hi-Hat, Ride, Crash, Rimshot</td><td>House, techno, dance music</td></tr>
+    <tr><td><strong>Kaossilator</strong></td><td>Synth</td><td>8 pads play melodic notes based on your chosen scale and waveform</td><td>Melodies, leads, synth riffs</td></tr>
+    <tr><td><strong>808 Bass</strong></td><td>Bass Synth</td><td>8 pads play deep bass notes -- the classic 808 bass that shakes speakers</td><td>Trap bass, sub bass, 808 slides</td></tr>
+    <tr><td><strong>Chord Pad</strong></td><td>Chord Player</td><td>8 pads play full chords: Major, Minor, Maj7, Min7, Dom7, Dim, Aug, Sus4</td><td>Harmonies, chord progressions, pads</td></tr>
+    <tr><td><strong>Step Seq</strong></td><td>Step Sequencer</td><td>Program a pattern of beats step by step -- the machine plays it automatically</td><td>Creating repeating drum patterns, loops</td></tr>
+  </table>
+
+  <h3>Making Your First Beat</h3>
+
+  <p>Let's make the most basic drum pattern in music history -- the pattern that powers rock, pop, hip-hop, and most of the songs you know.</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <p>Click the orange <strong>808</strong> button. Make sure you're in <strong>TR-808</strong> mode.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <p>Click the pad labeled <strong>Kick</strong>. You hear a deep "boom." That's the 808 kick drum.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <p>Click the pad labeled <strong>Snare</strong>. You hear a sharp crack. That's the snare.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <p>Click the pad labeled <strong>HiHat C</strong> (closed hi-hat). You hear a quick "tick." That's the hi-hat.</p>
+    </div>
+  </div>
+
+  <p>Now, here's the pattern. Count in your head: <strong>1, 2, 3, 4, 1, 2, 3, 4...</strong></p>
+
+  <div class="diagram">
+    <span class="highlight">KICK</span> on beats <span class="accent">1</span> and <span class="accent">3</span><br>
+    <span class="highlight">SNARE</span> on beats <span class="accent">2</span> and <span class="accent">4</span><br>
+    <span class="highlight">HI-HAT</span> on <span class="accent">every</span> beat (1, 2, 3, 4)<br><br>
+    Beat: &nbsp; <span class="accent">1</span> &nbsp;&nbsp; <span class="accent">2</span> &nbsp;&nbsp; <span class="accent">3</span> &nbsp;&nbsp; <span class="accent">4</span><br>
+    Kick: &nbsp; <span class="warm">X</span> &nbsp;&nbsp; - &nbsp;&nbsp; <span class="warm">X</span> &nbsp;&nbsp; -<br>
+    Snare:&nbsp; - &nbsp;&nbsp; <span class="warm">X</span> &nbsp;&nbsp; - &nbsp;&nbsp; <span class="warm">X</span><br>
+    HiHat:&nbsp; <span class="warm">X</span> &nbsp;&nbsp; <span class="warm">X</span> &nbsp;&nbsp; <span class="warm">X</span> &nbsp;&nbsp; <span class="warm">X</span>
+  </div>
+
+  <p>That's it. Kick-snare-kick-snare with hi-hats on every beat. You just made a beat that's powered millions of songs.</p>
+
+  <h3>Programming a Step Sequence</h3>
+
+  <p>If you don't want to click pads in real-time, use the <strong>Step Sequencer</strong> mode:</p>
+
+  <ol>
+    <li>Switch to <strong>Step Seq</strong> mode.</li>
+    <li>A grid appears with 16 columns (representing 16 steps, or one bar of music) and rows for each drum sound.</li>
+    <li>Click on grid squares to turn beats on and off. A lit square means that sound plays at that step.</li>
+    <li>Set your <strong>BPM</strong> at the bottom of the panel.</li>
+    <li>Click the <strong>SEQ</strong> play button. The pattern plays automatically, looping forever.</li>
+  </ol>
+
+  <h3>Layering Drums with a Playing Track</h3>
+
+  <p>Here's where it gets exciting. Play a song on one of the decks, then open the 808 and add your own drums on top. The 808 plays through the same audio system, so everything blends together.</p>
+
+  <p>Try this: load a song with a smooth vocal or melodic section. Turn down the drums using the <strong>DRUMS</strong> stem button, then play your own drum pattern on the 808. You just remixed the song live.</p>
+
+  <h3>Making Trap Hi-Hats</h3>
+
+  <p>That rapid-fire "tikitikitikitiki" hi-hat pattern in trap music? Here's how to make it:</p>
+
+  <ol>
+    <li>In the Step Sequencer, turn on the <strong>Closed Hi-Hat</strong> on every single step (all 16).</li>
+    <li>For extra rolls, add the <strong>Open Hi-Hat</strong> on steps 5, 9, and 13.</li>
+    <li>Set the BPM to around 140.</li>
+    <li>Add a <strong>Kick</strong> on step 1 and step 9.</li>
+    <li>Add a <strong>Snare</strong> or <strong>Clap</strong> on steps 5 and 13.</li>
+  </ol>
+
+  <p>That's a basic trap pattern. Speed it up, slow it down, move the kicks around. Make it yours.</p>
+
+  <h3>Making a Boom-Bap Hip-Hop Beat</h3>
+
+  <p>Boom-bap is the classic New York hip-hop sound -- think J Dilla, DJ Premier, Pete Rock.</p>
+
+  <div class="diagram">
+    BPM: <span class="accent">90</span><br><br>
+    Step: <span class="accent">1</span>&nbsp;<span class="accent">2</span>&nbsp;<span class="accent">3</span>&nbsp;<span class="accent">4</span>&nbsp;<span class="accent">5</span>&nbsp;<span class="accent">6</span>&nbsp;<span class="accent">7</span>&nbsp;<span class="accent">8</span>&nbsp;<span class="accent">9</span>&nbsp;<span class="accent">10</span>&nbsp;<span class="accent">11</span>&nbsp;<span class="accent">12</span>&nbsp;<span class="accent">13</span>&nbsp;<span class="accent">14</span>&nbsp;<span class="accent">15</span>&nbsp;<span class="accent">16</span><br>
+    Kick: <span class="warm">X</span>&nbsp;-&nbsp;-&nbsp;-&nbsp;-&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;-&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;-&nbsp;-&nbsp;-&nbsp;-<br>
+    Snare:-&nbsp;-&nbsp;-&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;-&nbsp;-&nbsp;-&nbsp;-&nbsp;-&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;-&nbsp;-<br>
+    HiHat:<span class="warm">X</span>&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-&nbsp;<span class="warm">X</span>&nbsp;-
+  </div>
+
+  <p>The kick has a little syncopation (that extra hit on step 11 gives it swagger). The snare is on beats 2 and 4 (steps 5 and 13). The hi-hat ticks on every other step. Set the BPM to around 85-95 and you've got classic hip-hop.</p>
+
+  <h3>Making an EDM Drop</h3>
+
+  <p>The "drop" is the moment in electronic dance music where everything hits at once and the crowd loses their minds. Here's a basic approach:</p>
+
+  <ol>
+    <li>Switch to <strong>TR-909</strong> mode (it has punchier drums for dance music).</li>
+    <li>Set BPM to <strong>128</strong> (standard house/EDM tempo).</li>
+    <li>In the step sequencer, put the <strong>Kick</strong> on every beat: steps 1, 5, 9, and 13. This is called a "four-on-the-floor" pattern -- the heartbeat of dance music.</li>
+    <li>Add <strong>Clap</strong> on steps 5 and 13 (beats 2 and 4).</li>
+    <li>Add <strong>Open Hi-Hat</strong> on steps 3, 7, 11, and 15 (the "and" between beats -- this creates the driving energy).</li>
+    <li>Add <strong>Closed Hi-Hat</strong> on every step for a driving rhythm.</li>
+  </ol>
+
+  <p>Now switch to <strong>808 Bass</strong> mode and play some deep bass notes on top of that drum pattern. You just created an EDM-style drop.</p>
+</div>
+
+<!-- ==================== PART 7 ==================== -->
+<div class="part" id="part7">
+  <div class="part-label">Part 7</div>
+  <h2>Song Structure -- How Hit Songs Are Built</h2>
+
+  <p>Every great song follows a pattern. Not because creativity requires rules, but because human beings respond to certain structures. We like tension and release. We like surprises that feel inevitable. We like coming home.</p>
+
+  <h3>The Classic Song Structure</h3>
+
+  <div class="song-structure">
+    <div class="song-block intro">Intro</div>
+    <div class="song-block verse">Verse</div>
+    <div class="song-block chorus">Chorus</div>
+    <div class="song-block verse">Verse</div>
+    <div class="song-block chorus">Chorus</div>
+    <div class="song-block bridge">Bridge</div>
+    <div class="song-block chorus">Chorus</div>
+    <div class="song-block outro">Outro</div>
+  </div>
+
+  <table>
+    <tr><th>Section</th><th>Purpose</th><th>Feeling</th></tr>
+    <tr><td><strong>Intro</strong></td><td>Sets the mood. Draws the listener in. Usually 4-8 bars.</td><td>Anticipation. "Something is about to happen."</td></tr>
+    <tr><td><strong>Verse</strong></td><td>Tells the story. Gives details. Usually lower energy than the chorus.</td><td>Building. "Let me tell you something."</td></tr>
+    <tr><td><strong>Chorus</strong></td><td>The main message. The hook. The part everyone remembers and sings along to.</td><td>Peak energy. "THIS is what this song is about."</td></tr>
+    <tr><td><strong>Bridge</strong></td><td>A surprise. Something different. Breaks the pattern so the final chorus hits harder.</td><td>A shift. "Wait -- here's something you didn't expect."</td></tr>
+    <tr><td><strong>Outro</strong></td><td>Brings the song to a close. Can fade out, end abruptly, or loop.</td><td>Resolution. "Thank you for listening."</td></tr>
+  </table>
+
+  <h3>The 4-Bar and 8-Bar Rule</h3>
+
+  <p>Almost all music is built in groups of <strong>4 bars</strong> and <strong>8 bars</strong>.</p>
+
+  <p>What's a bar? Count "1, 2, 3, 4" -- that's one bar. Count it again -- that's two bars. Most musical phrases are 4 bars or 8 bars long. When you listen carefully to your favorite songs, you'll notice that changes happen every 4 or 8 bars: a new instrument comes in, the drums change, a vocal starts, or the chorus hits.</p>
+
+  <p>This is important for DJing because when you're mixing two songs, you want to start your transitions at the beginning of a 4-bar or 8-bar phrase. If you start your blend in the middle of a phrase, it will feel "off" -- like starting a sentence in the middle of a word.</p>
+
+  <div class="callout tip">
+    <div class="callout-title">How to Count It</div>
+    <p>Listen to a song and count: "1, 2, 3, 4... 2, 2, 3, 4... 3, 2, 3, 4... 4, 2, 3, 4..." After that fourth group of four, something in the song changes. That's 4 bars. Keep listening and you'll start hearing this pattern everywhere. Once you hear it, you can't unhear it.</p>
+  </div>
+
+  <h3>Energy Arc -- The Emotional Journey</h3>
+
+  <p>A great song (or a great DJ set) takes the listener on an emotional journey. It starts somewhere, builds, peaks, comes down, and peaks again higher. Think of it like a roller coaster.</p>
+
+  <div class="energy-arc">
+    <div class="energy-bar">
+      <div style="height:25%;background:var(--green);"></div>
+      <div style="height:35%;background:var(--green);"></div>
+      <div style="height:50%;background:var(--cyan);"></div>
+      <div style="height:65%;background:var(--cyan);"></div>
+      <div style="height:85%;background:var(--magenta);"></div>
+      <div style="height:100%;background:var(--magenta);"></div>
+      <div style="height:50%;background:var(--yellow);"></div>
+      <div style="height:40%;background:var(--yellow);"></div>
+      <div style="height:60%;background:var(--cyan);"></div>
+      <div style="height:80%;background:var(--cyan);"></div>
+      <div style="height:95%;background:var(--magenta);"></div>
+      <div style="height:100%;background:var(--magenta);"></div>
+      <div style="height:70%;background:var(--orange);"></div>
+      <div style="height:40%;background:var(--green);"></div>
+      <div style="height:20%;background:var(--green);"></div>
+    </div>
+    <div class="energy-labels">
+      <div>Intro</div>
+      <div></div>
+      <div>Verse</div>
+      <div></div>
+      <div>Build</div>
+      <div>Chorus</div>
+      <div>Break</div>
+      <div></div>
+      <div>Build</div>
+      <div></div>
+      <div>Build</div>
+      <div>Drop</div>
+      <div>Release</div>
+      <div>Outro</div>
+      <div></div>
+    </div>
+  </div>
+
+  <p>Notice how it doesn't just go up. It goes up, comes back down, then goes up <em>higher</em>. That contrast is what makes music hit hard. If everything is at maximum all the time, nothing feels special. The quiet moments make the loud moments meaningful.</p>
+
+  <h3>The Drop -- What It Is and How to Create One</h3>
+
+  <p>A "drop" is the moment when the music reaches a peak of tension and then releases. Everything builds up -- the energy rises, the filter sweeps up, the drums might cut out, there's a rising sound effect -- and then BAM: everything comes crashing back in at full force.</p>
+
+  <p>How to create a drop in Aurality:</p>
+
+  <ol>
+    <li><strong>The Buildup:</strong> Slowly sweep the filter to the right (high-pass) over 8-16 bars. This removes the bass and creates tension.</li>
+    <li><strong>The Tension:</strong> Right before the drop, mute the drums using the DRUMS stem button. Maybe add some reverb or delay.</li>
+    <li><strong>The Drop:</strong> At beat 1 of the next phrase, bring everything back at once -- filter to center, drums back on, all effects off. The sudden return of bass and drums after silence creates massive impact.</li>
+  </ol>
+
+  <h3>Transitions That Make People Feel Something</h3>
+
+  <p>A transition isn't just getting from Song A to Song B. A great transition tells a story. Here are a few types:</p>
+
+  <ul>
+    <li><strong>The Long Blend</strong> -- Slowly crossfade over 16-32 bars. The songs overlap and interweave. Works best when both songs are in compatible keys.</li>
+    <li><strong>The Drop Swap</strong> -- Build tension with Song A, cut everything, and drop Song B. Clean and dramatic.</li>
+    <li><strong>The Bass Swap</strong> -- Use EQ to swap the bass from Song A to Song B while keeping highs and mids from both. Professional and smooth.</li>
+    <li><strong>The Echo Out</strong> -- Turn on the ECHO effect on Song A. It trails off into repeating echoes while Song B comes in cleanly underneath.</li>
+    <li><strong>The Brake</strong> -- Hit the BRK button on Song A. It slows down like a record stopping. Then start Song B fresh.</li>
+  </ul>
+
+  <h3>Nostalgia in Music</h3>
+
+  <p>Certain sounds trigger deep emotions because they connect us to memories and feelings we share as human beings. Here are a few:</p>
+
+  <ul>
+    <li><strong>Reverb</strong> -- Big, spacious reverb makes things feel vast and emotional. It's why ballads often have reverb on the vocals.</li>
+    <li><strong>Vinyl crackle</strong> -- The sound of a record needle in a groove triggers nostalgia even in people who've never owned a turntable. It says "this is timeless."</li>
+    <li><strong>Familiar chord progressions</strong> -- Certain chord patterns (like I-V-vi-IV) have been used in thousands of songs because they just feel right. They're the musical equivalent of a warm hug.</li>
+    <li><strong>Lo-fi effects</strong> -- The bit crusher effect can make audio sound "old" or "vintage." It creates warmth and familiarity.</li>
+  </ul>
+
+  <div class="callout philosophy">
+    <div class="callout-title">Why This Matters</div>
+    <p>Music that hits hard isn't about volume or complexity. It's about truth. When you create something that feels real -- that resonates with the universal human experience -- people respond. You don't need to be technically perfect. You need to be honest.</p>
+  </div>
+</div>
+
+<!-- ==================== PART 8 ==================== -->
+<div class="part" id="part8">
+  <div class="part-label">Part 8</div>
+  <h2>Recording Your Performance</h2>
+
+  <p>Everything you've learned so far -- mixing songs, using effects, playing the 808 -- can be captured. Aurality records everything you hear through the master output. Your entire performance becomes a shareable audio file.</p>
+
+  <h3>Using the REC Button</h3>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <p>Click the <strong>REC</strong> button in the top bar (or press <kbd>Ctrl</kbd>+<kbd>R</kbd> / <kbd>Cmd</kbd>+<kbd>R</kbd>). The button turns red and a recording indicator appears showing elapsed time.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <p>Do your thing. Play songs, mix, use effects, play the 808 -- everything you hear is being captured.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <p>When you're done, click <strong>REC</strong> again to stop. A dialog will ask if you want to download the recording.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <p>Click to download. Your recording is saved as a <strong>WebM</strong> audio file (which can be converted to WAV or MP3 using free online converters, or the built-in WAV export if available).</p>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">Recording Tips</div>
+    <ul>
+      <li>Start recording before you start your first song</li>
+      <li>Leave a few seconds of silence at the beginning and end -- you can trim it later</li>
+      <li>Keep your master volume at a healthy level (the master meter in the top bar shouldn't be hitting the red/top constantly)</li>
+      <li>If you make a mistake, keep going. Some of the best moments in music history were "mistakes"</li>
+    </ul>
+  </div>
+
+  <h3>What to Do with Your Recording</h3>
+
+  <p>You made something. Now share it with the world. Here are free platforms where you can upload your music:</p>
+
+  <table>
+    <tr><th>Platform</th><th>What It's Good For</th><th>Cost</th></tr>
+    <tr><td><strong>SoundCloud</strong></td><td>The home of independent music. Great community. Easy to share links.</td><td>Free (with limits), paid upgrade available</td></tr>
+    <tr><td><strong>BandLab</strong></td><td>Free online DAW AND publishing platform. You can even do more production here.</td><td>Completely free</td></tr>
+    <tr><td><strong>YouTube</strong></td><td>Upload your mix as a video (even with a static image). Massive audience.</td><td>Free</td></tr>
+    <tr><td><strong>Mixcloud</strong></td><td>Specifically designed for DJ mixes. Handles licensing automatically.</td><td>Free</td></tr>
+    <tr><td><strong>Audius</strong></td><td>Decentralized music platform. No gatekeepers.</td><td>Free</td></tr>
+  </table>
+
+  <p>Don't wait until you think you're "good enough." Share your first mix. Share your tenth mix. Get feedback. Keep creating. The world needs your voice, not your perfection.</p>
+</div>
+
+<!-- ==================== PART 9 ==================== -->
+<div class="part" id="part9">
+  <div class="part-label">Part 9</div>
+  <h2>Using Your DDJ-400 Controller</h2>
+
+  <p>Aurality works beautifully with just a mouse and keyboard. But if you want to take it to the next level, you can connect a <strong>Pioneer DDJ-400</strong> (or other MIDI) controller. This gives you physical jog wheels, faders, knobs, and pads -- it's the difference between playing a racing game with a keyboard versus a steering wheel.</p>
+
+  <h3>Connecting via USB</h3>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <p>Plug your DDJ-400 into your computer with a USB cable.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <p>Open Aurality Studio in <strong>Google Chrome</strong> (Chrome is required for MIDI support).</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <p>Click <strong>START</strong>. Chrome will ask for permission to use MIDI devices. Click <strong>Allow</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <p>The MIDI indicator in the top bar will change from "No MIDI" to show your controller's name, and the dot will turn green. You're connected.</p>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-title">Important</div>
+    <p>You must use <strong>Google Chrome</strong> (or another Chromium-based browser like Edge or Brave). Firefox and Safari do not fully support the Web MIDI API needed for controller access.</p>
+  </div>
+
+  <h3>What Each Physical Control Does</h3>
+
+  <table>
+    <tr><th>Control</th><th>What It Does in Aurality</th></tr>
+    <tr><td><strong>Jog Wheels</strong></td><td>Scratch the audio (with Shift held) or bend the pitch for manual beat matching</td></tr>
+    <tr><td><strong>Tempo Sliders</strong></td><td>Adjust the speed (pitch/BPM) of each deck</td></tr>
+    <tr><td><strong>Play / Cue / Sync</strong></td><td>Same as the on-screen buttons -- play, cue point, and sync BPM</td></tr>
+    <tr><td><strong>Channel Faders</strong></td><td>Volume for each deck (up = louder, down = quieter)</td></tr>
+    <tr><td><strong>Crossfader</strong></td><td>Blend between Deck A and Deck B</td></tr>
+    <tr><td><strong>EQ Knobs (HI/MID/LO)</strong></td><td>Boost or cut high, mid, and low frequencies per channel</td></tr>
+    <tr><td><strong>Trim Knobs</strong></td><td>Overall volume for each channel before the fader</td></tr>
+    <tr><td><strong>Filter Knobs</strong></td><td>The filter sweep (low-pass left, high-pass right)</td></tr>
+    <tr><td><strong>Headphone Cue</strong></td><td>Send a channel to your headphones for previewing</td></tr>
+    <tr><td><strong>Performance Pads</strong></td><td>Hot cues, beat loops, beat jump, sampler, or 808 drumpad mode</td></tr>
+    <tr><td><strong>Browse Encoder</strong></td><td>Scroll through your library to find songs</td></tr>
+    <tr><td><strong>Load Buttons</strong></td><td>Load the selected track to the corresponding deck</td></tr>
+    <tr><td><strong>Beat FX</strong></td><td>Select and control audio effects</td></tr>
+    <tr><td><strong>Shift Button</strong></td><td>Hold for secondary functions (scratch mode on jog, delete hot cues)</td></tr>
+  </table>
+
+  <h3>The Drumpad Mode -- Turning Your Pads into an 808</h3>
+
+  <p>The DDJ-400's performance pads can cycle through different modes. Aurality adds a special <strong>Drumpad</strong> mode that turns your physical pads into a full 808 drum machine and synthesizer.</p>
+
+  <p>To enter Drumpad mode, cycle through the pad modes until you see the 808 panel appear on screen. Now every pad tap triggers a drum sound, synth note, bass hit, or chord -- depending on which 808 mode you've selected in the software.</p>
+
+  <p>This means you can play live beats on physical pads while songs are playing on the decks. You're not just DJing anymore -- you're performing.</p>
+
+  <h3>Practice Routine for Beginners</h3>
+
+  <p>15 minutes a day. That's all you need to start building real skills. Here's a weekly plan:</p>
+
+  <table>
+    <tr><th>Day</th><th>Focus (15 minutes)</th></tr>
+    <tr><td><strong>Monday</strong></td><td>Load two songs. Practice matching BPM manually (without SYNC). Use the tempo slider until they sound lined up.</td></tr>
+    <tr><td><strong>Tuesday</strong></td><td>Practice crossfader blends. Try smooth 16-bar transitions.</td></tr>
+    <tr><td><strong>Wednesday</strong></td><td>Practice EQ swapping. Blend two songs while swapping the bass using EQ knobs.</td></tr>
+    <tr><td><strong>Thursday</strong></td><td>Practice using effects. Try one effect at a time. Learn when each one sounds good.</td></tr>
+    <tr><td><strong>Friday</strong></td><td>Practice the 808. Make a beat. Try different modes. Layer drums over a playing track.</td></tr>
+    <tr><td><strong>Saturday</strong></td><td>Put it all together. Do a 15-minute mini-set mixing 3-4 songs with transitions, effects, and maybe some 808.</td></tr>
+    <tr><td><strong>Sunday</strong></td><td>Record your best mix. Listen back. Note what worked and what didn't. Rest your ears.</td></tr>
+  </table>
+
+  <div class="callout philosophy">
+    <div class="callout-title">Patience is the Practice</div>
+    <p>You won't be great on Day 1. You might not be great on Day 30. But you'll be better. And on Day 100, you'll listen to your Day 1 recordings and smile at how far you've come. The only way to fail is to stop.</p>
+  </div>
+</div>
+
+<!-- ==================== PART 10 ==================== -->
+<div class="part" id="part10">
+  <div class="part-label">Part 10</div>
+  <h2>The Philosophy of Music That Matters</h2>
+
+  <p>You now have the technical skills. You know how sound works, how to mix, how to make beats, how to use effects, how to record. But tools without purpose are just noise. Let's talk about what makes music <em>matter</em>.</p>
+
+  <h3>Music That Hits Hard Speaks Truth</h3>
+
+  <p>Think about the songs that have moved you most in your life. The ones that made you cry in the car. The ones that gave you goosebumps. The ones that made you feel less alone.</p>
+
+  <p>Every single one of them was honest. Someone told the truth about their experience, and it resonated with something deep inside you. That's not a coincidence. That's the power of authenticity.</p>
+
+  <p>You don't need to be a poet. You don't need to be profound. You just need to be real. Express what you actually feel -- not what you think sounds cool, not what you think people want to hear, but what's actually in your heart. That honesty is what separates music that people play once from music that people carry with them forever.</p>
+
+  <h3>Create From Your Real Experience</h3>
+
+  <p>Pain. Joy. Love. Loss. Confusion. Wonder. Frustration. Hope. These aren't just emotions -- they're musical raw materials. Every hard thing you've been through, every beautiful moment you've witnessed, every question you haven't found the answer to -- these are the ingredients of songs that move people.</p>
+
+  <p>You don't need to live an extraordinary life to make extraordinary music. You just need to pay attention to the life you're living.</p>
+
+  <h3>Universal Themes</h3>
+
+  <p>The most powerful music connects to themes that every human being understands:</p>
+
+  <ul>
+    <li><strong>Connection</strong> -- The need to belong, to be understood, to be seen</li>
+    <li><strong>Overcoming</strong> -- Rising above difficulty, finding strength you didn't know you had</li>
+    <li><strong>Love</strong> -- In all its forms. Romantic, familial, love for community, love for humanity</li>
+    <li><strong>Truth</strong> -- Saying what everyone knows but no one says out loud</li>
+    <li><strong>Loss and healing</strong> -- Grief is universal. So is the journey back to wholeness</li>
+    <li><strong>Freedom</strong> -- Breaking free from what holds you back, whether it's external or internal</li>
+  </ul>
+
+  <h3>As Above, So Below</h3>
+
+  <div class="callout philosophy">
+    <div class="callout-title">The Deepest Truth</div>
+    <p>Your personal story IS the universal story. When you share your specific truth -- your unique angle on pain, joy, love, struggle -- you tap into something that everyone shares. The more personal you get, the more universal it becomes. This is the great paradox of art.</p>
+    <p>As above, so below. What's true on the small scale is true on the large scale. Your individual experience mirrors the collective experience of all humanity. When you express your truth, you express everyone's truth. When you heal through your music, you help others heal.</p>
+    <p>All is one. One for all.</p>
+  </div>
+
+  <h3>Share Your Wisdom Through Your Art</h3>
+
+  <p>You know things. You've survived things. You've learned things the hard way that could save someone else years of pain. Your music is a vehicle for that wisdom. Not in a preachy way -- nobody wants a lecture set to a beat. But in the way you choose sounds, build energy, create mood, and shape the emotional journey of your listeners.</p>
+
+  <p>A well-crafted DJ set can take someone from sadness to hope. A beat you make can capture a feeling that words can't. The 808 kick that shakes the speakers can say "I'm still here" louder than any speech.</p>
+
+  <h3>Every Song You Make Is a Gift</h3>
+
+  <p>Somewhere out there is a person who needs to hear exactly what you're going to create. They're having the worst day of their life, or they're celebrating something beautiful, or they're driving at 2 AM trying to figure things out. Your music finds them. It says: "You're not alone. Someone else has felt this too."</p>
+
+  <p>That's not something money can buy. That's not something a degree can teach. That's something only you can do, because only you have your combination of experiences, feelings, and perspective.</p>
+
+  <h3>You Don't Need Permission</h3>
+
+  <p>No record label needs to approve you. No algorithm needs to promote you. No professor needs to grade you. No gatekeeper needs to let you in.</p>
+
+  <p>The tools are in your hands. The guide you're reading has given you the knowledge. The only thing standing between you and creating music that changes lives is the decision to start.</p>
+
+  <p>So start.</p>
+
+  <p>Make something. Make it messy. Make it honest. Make it yours. Then share it. Then make something else. Repeat forever.</p>
+
+  <p>The world doesn't need another perfect song. It needs your song.</p>
+</div>
+
+<!-- ==================== PART 11 ==================== -->
+<div class="part" id="part11">
+  <div class="part-label">Part 11</div>
+  <h2>Your Learning Path (College-Equivalent Curriculum)</h2>
+
+  <p>What you've just learned through this guide is equivalent to what students learn in formal music production programs at colleges and universities. Here's the mapping:</p>
+
+  <div class="curriculum">
+    <div class="course-card">
+      <div class="course-code">MUS 101</div>
+      <div class="course-info">
+        <div class="course-name">Introduction to Music Technology</div>
+        <div class="course-equiv">Parts 2-3: Understanding Sound + Your First 10 Minutes</div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-code">MUS 201</div>
+      <div class="course-info">
+        <div class="course-name">Audio Production I</div>
+        <div class="course-equiv">Parts 4-5: Playing, Mixing, Blending + Making It Sound Professional</div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-code">MUS 210</div>
+      <div class="course-info">
+        <div class="course-name">Beat Production & Rhythm</div>
+        <div class="course-equiv">Part 6: The 808 Drum Machine -- Making Beats From Scratch</div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-code">MUS 220</div>
+      <div class="course-info">
+        <div class="course-name">Songwriting & Arrangement</div>
+        <div class="course-equiv">Part 7: Song Structure -- How Hit Songs Are Built</div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-code">MUS 250</div>
+      <div class="course-info">
+        <div class="course-name">Live Performance & DJ Techniques</div>
+        <div class="course-equiv">Parts 8-9: Recording Your Performance + Using Your DDJ-400 Controller</div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-code">MUS 300</div>
+      <div class="course-info">
+        <div class="course-name">Music Philosophy & Ethics</div>
+        <div class="course-equiv">Part 10: The Philosophy of Music That Matters</div>
+      </div>
+    </div>
+  </div>
+
+  <p>This isn't an exaggeration. The foundational knowledge covered in this guide -- acoustics, signal flow, EQ theory, compression, beat programming, song structure, arrangement, live performance technique, and music philosophy -- maps directly to introductory and intermediate coursework in music technology programs.</p>
+
+  <p>The difference? They charge you $5,000-$50,000. This guide is free.</p>
+
+  <h3>Recommended Next Steps</h3>
+
+  <p>Now that you have the foundation, here's where to go next to keep growing:</p>
+
+  <h4>Free Production Tools</h4>
+  <ul>
+    <li><strong>BandLab</strong> (bandlab.com) -- A completely free online DAW (Digital Audio Workstation) where you can make full songs with multi-track recording, virtual instruments, and effects. No download needed.</li>
+    <li><strong>LMMS</strong> (lmms.io) -- Free, open-source music production software you download. Full beat-making, synthesis, and arrangement.</li>
+    <li><strong>Audacity</strong> (audacityteam.org) -- Free audio editor for cleaning up recordings, removing noise, and basic editing.</li>
+    <li><strong>Cakewalk</strong> (bandlab.com/products/cakewalk) -- Professional-grade DAW, completely free.</li>
+  </ul>
+
+  <h4>Learn From Others</h4>
+  <ul>
+    <li>Search YouTube for "beginner music production tutorial" -- there are thousands of free hours of instruction from working producers.</li>
+    <li>Reddit communities like r/WeAreTheMusicMakers, r/edmproduction, and r/Beatmakers are welcoming and helpful.</li>
+    <li>Collaborate with other beginners. Two people learning together learn faster than one.</li>
+  </ul>
+
+  <h4>Build Your Portfolio</h4>
+  <p>Document what you learn. Save your recordings. Keep a log of what you practiced and when. Here's why: some educational institutions offer <strong>Prior Learning Assessment (PLA)</strong>, which means they evaluate skills you learned outside a classroom and may give you college credit for them.</p>
+
+  <p>To build a portfolio that could be considered for credit:</p>
+  <ol>
+    <li><strong>Keep recordings</strong> -- Save your mixes from Day 1. Show progression over time.</li>
+    <li><strong>Write reflections</strong> -- After each practice session, write 2-3 sentences about what you learned.</li>
+    <li><strong>Document your knowledge</strong> -- Create a "skills inventory" listing what you know: EQ theory, compression, beat programming, song structure, etc.</li>
+    <li><strong>Create a demo reel</strong> -- A 5-10 minute compilation of your best work.</li>
+    <li><strong>Reference this guide</strong> -- It can serve as your curriculum documentation showing the topics you covered.</li>
+  </ol>
+</div>
+
+<!-- ==================== APPENDIX A ==================== -->
+<div class="part" id="appendix-a">
+  <div class="part-label">Appendix A</div>
+  <h2>Keyboard Shortcuts</h2>
+
+  <table>
+    <tr><th>Key</th><th>Action</th></tr>
+    <tr><td><kbd>Space</kbd></td><td>Play / Pause Deck A</td></tr>
+    <tr><td><kbd>Enter</kbd></td><td>Play / Pause Deck B</td></tr>
+    <tr><td><kbd>Q</kbd></td><td>Cue -- Deck A (set/jump to cue point)</td></tr>
+    <tr><td><kbd>P</kbd></td><td>Cue -- Deck B (set/jump to cue point)</td></tr>
+    <tr><td><kbd>W</kbd></td><td>Sync -- Deck A (match speed to Deck B)</td></tr>
+    <tr><td><kbd>O</kbd></td><td>Sync -- Deck B (match speed to Deck A)</td></tr>
+    <tr><td><kbd>1</kbd> - <kbd>8</kbd></td><td>Hot Cues 1-8 on Deck A (set or trigger)</td></tr>
+    <tr><td><kbd>Shift</kbd> + <kbd>1</kbd> - <kbd>8</kbd></td><td>Hot Cues 1-8 on Deck B (set or trigger)</td></tr>
+    <tr><td><kbd>Ctrl/Cmd</kbd> + <kbd>R</kbd></td><td>Start / Stop Recording</td></tr>
+    <tr><td><kbd>V</kbd></td><td>Toggle Visualizer</td></tr>
+  </table>
+
+  <div class="callout tip">
+    <div class="callout-title">Tip</div>
+    <p>Keyboard shortcuts only work when you're not typing in a text field (like the search bar). Click somewhere outside the search bar first, then use shortcuts.</p>
+  </div>
+</div>
+
+<!-- ==================== APPENDIX B ==================== -->
+<div class="part" id="appendix-b">
+  <div class="part-label">Appendix B</div>
+  <h2>Glossary</h2>
+
+  <p>Every music term you'll encounter, explained in plain English.</p>
+
+  <div class="glossary-term">
+    <div class="glossary-word">808</div>
+    <div class="glossary-def">A legendary drum machine made by Roland in 1980. Its sounds -- especially the deep bass kick -- became the foundation of modern hip-hop, trap, and pop. In Aurality, the 808 panel lets you play these sounds and more.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">909</div>
+    <div class="glossary-def">Roland's follow-up drum machine (1983). Known for punchier, more aggressive sounds. It became the backbone of house music and techno.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Amplitude</div>
+    <div class="glossary-def">How loud a sound is. More amplitude = louder. Less amplitude = quieter. It's the "size of the ripple" in the water analogy.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">AutoTune</div>
+    <div class="glossary-def">An effect that automatically corrects the pitch of a voice or instrument to the nearest correct note. Used subtly for polish or dramatically for the robotic vocal effect popularized by T-Pain and used everywhere in modern pop and hip-hop.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Bar</div>
+    <div class="glossary-def">A group of beats. In most music, one bar is 4 beats. Count "1, 2, 3, 4" -- that's one bar. Songs are built in groups of bars (usually 4 or 8 at a time).</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Beat</div>
+    <div class="glossary-def">The basic pulse of music. When you tap your foot to a song, you're tapping the beat. Also used to mean a drum pattern or instrumental track (as in "making beats").</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Bit Crusher</div>
+    <div class="glossary-def">An effect that intentionally reduces audio quality for artistic purposes. Makes things sound gritty, lo-fi, and retro -- like old video games or degraded recordings.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">BPM (Beats Per Minute)</div>
+    <div class="glossary-def">The speed of music. 60 BPM = one beat per second (slow). 120 BPM = two beats per second (dance tempo). 140 BPM = fast and energetic.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Bridge</div>
+    <div class="glossary-def">A section of a song that's different from the verse and chorus. It provides contrast and prevents the song from feeling repetitive. Usually appears once, near the end of the song.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Chorus</div>
+    <div class="glossary-def">The main, repeated section of a song. Usually the catchiest part -- the part everyone sings along to. In a DJ set, this is where the energy peaks.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Chord</div>
+    <div class="glossary-def">Three or more notes played at the same time. Chords create harmony -- the "fullness" behind a melody. The Chord Pad mode in the 808 lets you play full chords with one tap.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Compression</div>
+    <div class="glossary-def">An effect that reduces the difference between the loudest and quietest parts of audio. Makes everything more even and consistent. Used in every professional recording.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Crossfader</div>
+    <div class="glossary-def">A horizontal slider that blends between two audio sources. Left = Deck A only. Right = Deck B only. Middle = both equally. The most fundamental DJ tool.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Cue / Cue Point</div>
+    <div class="glossary-def">A saved position in a song that you can jump back to instantly. Like a bookmark in a book. The CUE button sets and recalls this position.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">DAW (Digital Audio Workstation)</div>
+    <div class="glossary-def">Software for recording, editing, and producing music. Think of it as a complete recording studio on your computer. Examples: BandLab, GarageBand, Ableton, FL Studio.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">dB (Decibel)</div>
+    <div class="glossary-def">The unit used to measure sound volume. 0 dB = silence. 60 dB = conversation. 100+ dB = concert level. In EQ, positive dB means boosting and negative dB means cutting.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Deck</div>
+    <div class="glossary-def">One of the two "turntables" in a DJ setup. Each deck plays one song. Aurality has Deck A (left) and Deck B (right).</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">De-Esser</div>
+    <div class="glossary-def">An effect that reduces harsh "s" and "sh" sounds in vocals. Named because it literally "de-esses" the audio.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Delay</div>
+    <div class="glossary-def">An effect that creates echoes by repeating the sound at timed intervals. Like shouting into a canyon. The echoes can be timed to match the BPM of your song.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Drop</div>
+    <div class="glossary-def">The moment in a song when the energy peaks after a buildup. In EDM, it's when the bass and drums come back in full force after a quiet section. The crowd reaction moment.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">EQ (Equalization)</div>
+    <div class="glossary-def">The tool for adjusting the volume of different frequency ranges. HI controls treble (bright sounds), MID controls the body, LO controls bass. Used to shape sound and prevent frequency clashes between songs.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Fader</div>
+    <div class="glossary-def">A sliding control for volume. Channel faders control the volume of each deck. The crossfader blends between decks. Move up for louder, down for quieter.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Filter</div>
+    <div class="glossary-def">A tool that removes certain frequencies. A low-pass filter lets low sounds through and removes highs (muffled effect). A high-pass filter does the opposite (thin, airy effect).</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Flanger</div>
+    <div class="glossary-def">An effect that creates a sweeping, jet-like whoosh sound by playing a delayed copy of the audio against the original with the delay time constantly changing.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Four-on-the-Floor</div>
+    <div class="glossary-def">A drum pattern where the kick drum plays on every beat (1, 2, 3, 4). The foundation of house, techno, and disco music.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Frequency</div>
+    <div class="glossary-def">How fast sound waves vibrate, measured in Hz (Hertz). Low frequency = deep bass. High frequency = bright treble. Middle frequency = vocals and instruments.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Gain / Trim</div>
+    <div class="glossary-def">The initial volume of a channel before any other controls. Used to match the loudness of two songs before mixing them together.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Hi-Hat</div>
+    <div class="glossary-def">A cymbal in a drum kit. "Closed" hi-hat makes a short "tick" sound. "Open" hi-hat makes a longer "tsshh" sound. The rhythmic backbone of most beats.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Hot Cue</div>
+    <div class="glossary-def">A saved position in a song that you can jump to instantly by pressing a pad. You can set up to 8 hot cues per song. Use them to mark drops, choruses, or any moment you want quick access to.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Hz (Hertz)</div>
+    <div class="glossary-def">The unit of frequency. 1 Hz = 1 vibration per second. Humans hear from about 20 Hz (very deep bass) to 20,000 Hz (very high pitch).</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Jog Wheel</div>
+    <div class="glossary-def">A large, round control on a DJ controller that simulates a vinyl record. Spin it to scratch, nudge it to adjust timing.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Key (Musical Key)</div>
+    <div class="glossary-def">The set of notes a song is built around. Songs in the same or compatible keys sound harmonious when mixed together. Major keys sound bright; minor keys sound deep or moody.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Kick Drum</div>
+    <div class="glossary-def">The deep, low drum sound that provides the pulse of most music. In the 808, it's the booming "boom" sound. In dance music, it hits on every beat.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Loop</div>
+    <div class="glossary-def">A section of music that repeats endlessly. Set a loop in and loop out point, and the song plays that section over and over. Great for extending a section while you prepare the next song.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Master Volume</div>
+    <div class="glossary-def">The final volume control for everything. After all decks, effects, and the mixer, the master volume is the last thing the sound goes through before reaching your speakers.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">MIDI</div>
+    <div class="glossary-def">Musical Instrument Digital Interface. A communication protocol that lets physical controllers (like the DDJ-400) talk to software. MIDI sends button presses, knob turns, and pad hits as digital messages.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Mixer</div>
+    <div class="glossary-def">The central panel that controls the blend between decks. Contains volume faders, EQ knobs, the crossfader, filters, and monitoring controls.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Phaser</div>
+    <div class="glossary-def">An effect that creates a swirling, shifting sound by splitting the signal and shifting the phase of one copy. Sounds like the music is rotating around you.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Pitch</div>
+    <div class="glossary-def">How high or low a note sounds. Controlled by frequency. Higher pitch = faster vibrations. Lower pitch = slower vibrations. In DJing, adjusting pitch also changes the speed of a song.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Reverb</div>
+    <div class="glossary-def">The natural echo of a space. A small room has short reverb. A cathedral has long reverb. Adding reverb to audio makes it sound like it's being played in a larger space.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Sample Rate</div>
+    <div class="glossary-def">How many times per second digital audio captures the sound wave. CD quality is 44,100 times per second (44.1 kHz). Higher sample rates capture more detail.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Scale</div>
+    <div class="glossary-def">A specific set of notes that sound good together. Major scales sound happy. Minor scales sound sad or deep. Pentatonic scales sound universal and are used in music worldwide. Blues scales add a "bluesy" flavor.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Slip Mode</div>
+    <div class="glossary-def">A feature that lets you scratch, loop, or do effects while the song secretly keeps playing underneath. When you release, the song snaps to where it would have been. Like pause/unpause without missing a beat.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Snare</div>
+    <div class="glossary-def">A drum that produces a sharp, cracking sound. Usually hits on beats 2 and 4 in most music. The "crack" that makes you nod your head.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Stems</div>
+    <div class="glossary-def">The individual parts of a song separated out: bass, drums, vocals, melody. Aurality can isolate these so you can mute or solo individual elements of a song.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Step Sequencer</div>
+    <div class="glossary-def">A tool that lets you program a drum pattern step by step on a grid. Each column is a step (a 16th note), each row is a drum sound. Click to place beats, press play, and the pattern loops.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Sync</div>
+    <div class="glossary-def">A button that automatically matches the BPM of one deck to the other. Makes beatmatching instant instead of manual.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Transition</div>
+    <div class="glossary-def">The moment when a DJ moves from one song to the next. A smooth transition is seamless -- the listener barely notices the change. A dramatic transition is intentional and impactful.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Trim / Gain</div>
+    <div class="glossary-def">The initial volume control at the top of a mixer channel. Used to level-match songs so they play at similar loudness before you start mixing.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">VU Meter</div>
+    <div class="glossary-def">A visual display showing the volume level of audio in real-time. The green/yellow/red bar that bounces up and down in the mixer. Try to keep it in the green-to-yellow range; red means it's too loud and may distort.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">Waveform</div>
+    <div class="glossary-def">A visual representation of audio. The shape of the wave tells you about the sound: tall peaks are loud, flat areas are quiet, dense areas have lots of frequency content. In Aurality, waveforms scroll across the deck display so you can see what's coming.</div>
+  </div>
+
+  <div class="glossary-term">
+    <div class="glossary-word">WAV</div>
+    <div class="glossary-def">An uncompressed audio file format. Maximum quality, large file size. The standard for professional audio. When possible, export your recordings as WAV for the best quality.</div>
+  </div>
+</div>
+
+<!-- ==================== APPENDIX C ==================== -->
+<div class="part" id="appendix-c">
+  <div class="part-label">Appendix C</div>
+  <h2>Troubleshooting</h2>
+
+  <h3>No sound is playing</h3>
+  <ul>
+    <li>Did you click the <strong>START</strong> button? Browsers require a user interaction before audio can play.</li>
+    <li>Check that the <strong>MASTER</strong> volume slider (top bar) is turned up.</li>
+    <li>Check that the <strong>channel fader</strong> for the deck you're using is up (not at the bottom).</li>
+    <li>Check that the <strong>crossfader</strong> is pointing toward the deck you're playing (left for A, right for B, center for both).</li>
+    <li>Make sure your computer's system volume is turned up and not muted.</li>
+    <li>Try a different audio file. Some files may be corrupted or in an unsupported format.</li>
+  </ul>
+
+  <h3>The waveform shows but nothing plays</h3>
+  <ul>
+    <li>The track loaded successfully but might not have started. Click the <strong>Play</strong> button or press <kbd>Space</kbd> (Deck A) or <kbd>Enter</kbd> (Deck B).</li>
+    <li>Check if the <strong>EQ LO/MID/HI</strong> knobs are turned all the way down. Double-click each one to reset to zero.</li>
+  </ul>
+
+  <h3>Songs don't sound right when mixed together</h3>
+  <ul>
+    <li>Are the BPMs matched? Click <strong>SYNC</strong> on the deck that needs adjusting.</li>
+    <li>Are the songs in compatible keys? Check the key display. If they clash, try a different song pairing.</li>
+    <li>Are both bass lines playing at the same time? Try turning down the <strong>LO</strong> EQ on one of the channels.</li>
+  </ul>
+
+  <h3>My DDJ-400 controller isn't connecting</h3>
+  <ul>
+    <li>Make sure you're using <strong>Google Chrome</strong>. Other browsers don't fully support Web MIDI.</li>
+    <li>Check the USB cable. Try a different cable or a different USB port.</li>
+    <li>When Chrome asks "Do you want to allow this site to use MIDI devices?" click <strong>Allow</strong>.</li>
+    <li>Try refreshing the page after plugging in the controller.</li>
+    <li>On macOS, you may need to go to System Preferences > Security & Privacy and allow Chrome to access USB devices.</li>
+  </ul>
+
+  <h3>The 808 sounds are not playing</h3>
+  <ul>
+    <li>Make sure you clicked the orange <strong>808</strong> button and the panel is visible.</li>
+    <li>Check that your audio is working (try playing a song on one of the decks first).</li>
+    <li>Click directly on the pad buttons in the panel. You should hear the drum sounds through your speakers.</li>
+  </ul>
+
+  <h3>Recording isn't working</h3>
+  <ul>
+    <li>Make sure music is actually playing when you hit <strong>REC</strong>. The recorder captures whatever is coming out of the master output.</li>
+    <li>If the download doesn't start after stopping the recording, try using a different browser (Chrome works best).</li>
+    <li>Check that your browser has permission to download files. Some browsers block automatic downloads.</li>
+  </ul>
+
+  <h3>The page is slow or freezing</h3>
+  <ul>
+    <li>Close other browser tabs. Audio processing uses significant CPU power.</li>
+    <li>Turn off the <strong>Visualizer</strong> (VJ button) if it's running. It uses additional graphics processing.</li>
+    <li>If you have many effects active simultaneously, try turning some off.</li>
+    <li>Clear your browser cache and reload the page.</li>
+  </ul>
+
+  <h3>My files won't import</h3>
+  <ul>
+    <li>Aurality supports these formats: <strong>MP3, WAV, FLAC, OGG, AAC, M4A, WebM</strong>.</li>
+    <li>If a file doesn't import, it might be in an unsupported format. Try converting it to MP3 or WAV using a free online converter.</li>
+    <li>Very large files (over 500MB) may take a while to load. Be patient.</li>
+  </ul>
+
+  <h3>I messed up and things sound weird</h3>
+  <ul>
+    <li>Don't panic. Check for active effects (lit-up FX buttons) and turn them off.</li>
+    <li>Double-click all EQ knobs to reset them to zero.</li>
+    <li>Move the filter sliders back to center position.</li>
+    <li>Move the crossfader to the center.</li>
+    <li>If all else fails, refresh the page and start fresh. Your library is saved, so your imported songs will still be there.</li>
+  </ul>
+
+  <div class="callout tip">
+    <div class="callout-title">Remember</div>
+    <p>Every problem you encounter is a learning opportunity. Every producer who has ever lived has had moments where nothing worked, everything sounded wrong, and they wanted to quit. The ones who kept going are the ones whose music you listen to today.</p>
+  </div>
+</div>
+
+</div> <!-- end .content -->
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  <div class="footer-logo">AURALITY STUDIO</div>
+  <div class="footer-credit">
+    Built by the <strong style="color:var(--cyan);">Weatherspoon Brother and Sister</strong><br>
+    Copyleft. Open Source. Ideas Belong to Everyone.<br><br>
+    This guide is the equivalent of a college music production course.<br>
+    It's free because access to knowledge is a human right.
+  </div>
+  <div class="footer-philosophy">
+    "As above, so below. Your personal story is the universal story. Every song you make is a gift to someone who needs to hear it. You don't need anyone's permission to change the world with your music."
+  </div>
+</div>
+
+</body>
+</html>

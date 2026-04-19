@@ -1,0 +1,17 @@
+{
+  "name": "Aurality Studio",
+  "short_name": "Aurality",
+  "description": "Professional DJ Application — Dual Deck Engine, MIDI Controller Support, AI Mix Assistant",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#00e5ff",
+  "orientation": "landscape",
+  "icons": [{"src": "aurality-logo.png", "sizes": "512x512", "type": "image/png"},
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='64' fill='%230a0a0f'/><circle cx='160' cy='256' r='100' fill='none' stroke='%2300e5ff' stroke-width='8'/><circle cx='160' cy='256' r='30' fill='%2300e5ff'/><circle cx='352' cy='256' r='100' fill='none' stroke='%23ff0066' stroke-width='8'/><circle cx='352' cy='256' r='30' fill='%23ff0066'/><rect x='230' y='180' width='52' height='152' rx='8' fill='%231a1a2e'/><rect x='242' y='200' width='6' height='112' rx='3' fill='%2300e5ff'/><rect x='264' y='200' width='6' height='112' rx='3' fill='%23ff0066'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
