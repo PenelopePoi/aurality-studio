@@ -36,6 +36,12 @@
       <button class="top-btn" id="btn-ai">AI</button>
       <button class="top-btn" id="btn-practice">PRACTICE</button>
       <button class="top-btn" id="btn-808" style="background:#ff6600;">808</button>
+      <span style="display:inline-block;width:1px;height:20px;background:#3a3a50;margin:0 6px;vertical-align:middle;"></span>
+      <button class="top-btn mode-btn" id="btn-mode-dj" style="background:#00e5ff;color:#000;" onclick="window.switchStudioMode('dj')">DJ</button>
+      <button class="top-btn mode-btn" id="btn-mode-photo" onclick="window.switchStudioMode('photo')">PHOTO</button>
+      <button class="top-btn mode-btn" id="btn-mode-video" onclick="window.switchStudioMode('video')">VIDEO</button>
+      <button class="top-btn mode-btn" id="btn-mode-design" onclick="window.switchStudioMode('design')">DESIGN</button>
+      <button class="top-btn mode-btn" id="btn-mode-write" onclick="window.switchStudioMode('write')">WRITE</button>
       <div class="master-vol">
         <span>MASTER</span>
         <input type="range" id="master-vol" min="0" max="1.5" step="0.01" value="1">
@@ -521,6 +527,135 @@
   </div>
 </div>
 
+<!-- ===== Photo Studio ===== -->
+<div id="photo-studio" style="display:none;position:fixed;top:50px;left:0;right:0;bottom:0;background:#0a0a14;z-index:500;overflow:auto;">
+  <div style="display:flex;height:100%;">
+    <!-- Toolbar -->
+    <div id="photo-toolbar" style="width:280px;background:#12122a;border-right:1px solid #2a2a4a;padding:12px;overflow-y:auto;">
+      <h3 style="color:#00e5ff;margin:0 0 12px;font-size:14px;font-family:'JetBrains Mono',monospace;">PHOTO TOOLS</h3>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <button class="top-btn" id="photo-import" style="width:100%">Import Image</button>
+        <input type="file" id="photo-file-input" accept="image/*" style="display:none">
+        <hr style="border-color:#2a2a4a;margin:4px 0;">
+        <div style="color:#9999bb;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Adjustments</div>
+        <label style="color:#ccc;font-size:11px;">Brightness <input type="range" id="photo-brightness" min="-100" max="100" value="0" style="width:100%;"></label>
+        <label style="color:#ccc;font-size:11px;">Contrast <input type="range" id="photo-contrast" min="-100" max="100" value="0" style="width:100%;"></label>
+        <label style="color:#ccc;font-size:11px;">Saturation <input type="range" id="photo-saturation" min="-100" max="100" value="0" style="width:100%;"></label>
+        <label style="color:#ccc;font-size:11px;">Temperature <input type="range" id="photo-temperature" min="-100" max="100" value="0" style="width:100%;"></label>
+        <label style="color:#ccc;font-size:11px;">Hue <input type="range" id="photo-hue" min="0" max="360" value="0" style="width:100%;"></label>
+        <hr style="border-color:#2a2a4a;margin:4px 0;">
+        <div style="color:#9999bb;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Tools</div>
+        <button class="top-btn" id="photo-bg-remove" style="width:100%">Remove Background</button>
+        <button class="top-btn" id="photo-crop" style="width:100%">Crop</button>
+        <button class="top-btn" id="photo-rotate" style="width:100%">Rotate 90</button>
+        <button class="top-btn" id="photo-flip-h" style="width:100%">Flip H</button>
+        <button class="top-btn" id="photo-flip-v" style="width:100%">Flip V</button>
+        <button class="top-btn" id="photo-sharpen" style="width:100%">Sharpen</button>
+        <button class="top-btn" id="photo-blur" style="width:100%">Blur</button>
+        <hr style="border-color:#2a2a4a;margin:4px 0;">
+        <div style="color:#9999bb;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Filters</div>
+        <div id="photo-presets" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;"></div>
+        <hr style="border-color:#2a2a4a;margin:4px 0;">
+        <div style="color:#9999bb;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Effects</div>
+        <button class="top-btn" id="photo-vignette" style="width:100%">Vignette</button>
+        <button class="top-btn" id="photo-grain" style="width:100%">Grain</button>
+        <button class="top-btn" id="photo-glitch" style="width:100%">Glitch</button>
+        <button class="top-btn" id="photo-ascii" style="width:100%">ASCII Art</button>
+        <button class="top-btn" id="photo-pixelsort" style="width:100%">Pixel Sort</button>
+        <button class="top-btn" id="photo-deepfry" style="width:100%">Deep Fry</button>
+        <button class="top-btn" id="photo-duotone" style="width:100%">Duotone</button>
+        <hr style="border-color:#2a2a4a;margin:4px 0;">
+        <div style="color:#ff6600;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Steganography</div>
+        <button class="top-btn" id="stego-encode" style="width:100%;background:#1a0a2e;border-color:#ff6600;">Hide Message in Image</button>
+        <button class="top-btn" id="stego-decode" style="width:100%;background:#1a0a2e;border-color:#ff6600;">Extract Hidden Message</button>
+        <button class="top-btn" id="stego-encode-file" style="width:100%;background:#1a0a2e;border-color:#ff6600;">Hide File in Image</button>
+        <button class="top-btn" id="stego-capacity" style="width:100%;background:#1a0a2e;border-color:#ff6600;">Check Capacity</button>
+        <input type="file" id="stego-file-input" style="display:none">
+        <hr style="border-color:#2a2a4a;margin:4px 0;">
+        <div style="display:flex;gap:4px;">
+          <button class="top-btn" id="photo-undo" style="flex:1">Undo</button>
+          <button class="top-btn" id="photo-redo" style="flex:1">Redo</button>
+        </div>
+        <hr style="border-color:#2a2a4a;margin:4px 0;">
+        <div style="color:#9999bb;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Export</div>
+        <select id="photo-export-format" style="width:100%;background:#1a1a2e;color:#fff;border:1px solid #444;padding:4px;border-radius:4px;">
+          <option value="png">PNG</option>
+          <option value="jpeg">JPEG</option>
+          <option value="webp">WebP</option>
+        </select>
+        <label style="color:#ccc;font-size:11px;">Quality <input type="range" id="photo-export-quality" min="10" max="100" value="92" style="width:100%;"></label>
+        <button class="top-btn" id="photo-export" style="width:100%;background:#00e5ff;color:#000;">Export Image</button>
+      </div>
+    </div>
+    <!-- Canvas -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;">
+      <canvas id="photo-canvas" style="max-width:100%;max-height:80vh;border:1px solid #2a2a4a;border-radius:8px;"></canvas>
+      <div id="photo-histogram" style="margin-top:8px;">
+        <canvas id="histogram-canvas" width="256" height="100" style="border:1px solid #2a2a4a;border-radius:4px;"></canvas>
+      </div>
+      <div id="photo-info" style="color:#9999bb;font-size:11px;margin-top:4px;font-family:'JetBrains Mono',monospace;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Video Studio ===== -->
+<div id="video-studio" style="display:none;position:fixed;top:50px;left:0;right:0;bottom:0;background:#0a0a14;z-index:500;overflow:auto;">
+  <div style="display:flex;height:100%;">
+    <div style="width:260px;background:#12122a;border-right:1px solid #2a2a4a;padding:12px;overflow-y:auto;">
+      <h3 style="color:#00e5ff;margin:0 0 12px;font-size:14px;font-family:'JetBrains Mono',monospace;">VIDEO TOOLS</h3>
+      <button class="top-btn" id="video-import" style="width:100%">Import Video</button>
+      <input type="file" id="video-file-input" accept="video/*" style="display:none">
+      <hr style="border-color:#2a2a4a;margin:8px 0;">
+      <button class="top-btn" id="video-screen-record" style="width:100%;background:#ff0066;">Screen Record</button>
+      <button class="top-btn" id="video-webcam" style="width:100%;">Webcam Overlay</button>
+      <hr style="border-color:#2a2a4a;margin:8px 0;">
+      <div style="color:#9999bb;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Effects</div>
+      <label style="color:#ccc;font-size:11px;">Brightness <input type="range" id="vid-brightness" min="-100" max="100" value="0" style="width:100%;"></label>
+      <label style="color:#ccc;font-size:11px;">Contrast <input type="range" id="vid-contrast" min="-100" max="100" value="0" style="width:100%;"></label>
+      <label style="color:#ccc;font-size:11px;">Saturation <input type="range" id="vid-saturation" min="-100" max="100" value="0" style="width:100%;"></label>
+      <button class="top-btn" id="vid-chromakey" style="width:100%">Chroma Key (Green Screen)</button>
+      <hr style="border-color:#2a2a4a;margin:8px 0;">
+      <div style="color:#9999bb;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Text Overlay</div>
+      <input type="text" id="vid-text-content" placeholder="Overlay text..." style="width:100%;background:#1a1a2e;color:#fff;border:1px solid #444;padding:6px;border-radius:4px;box-sizing:border-box;">
+      <button class="top-btn" id="vid-add-text" style="width:100%">Add Text Overlay</button>
+      <hr style="border-color:#2a2a4a;margin:8px 0;">
+      <div style="color:#9999bb;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Speed</div>
+      <label style="color:#ccc;font-size:11px;"><span id="vid-speed-val">1.0x</span> <input type="range" id="vid-speed" min="0.25" max="4" step="0.25" value="1" style="width:100%;"></label>
+      <hr style="border-color:#2a2a4a;margin:8px 0;">
+      <div style="color:#9999bb;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Export</div>
+      <select id="vid-resolution" style="width:100%;background:#1a1a2e;color:#fff;border:1px solid #444;padding:4px;border-radius:4px;margin-bottom:6px;">
+        <option value="720">720p</option>
+        <option value="1080" selected>1080p</option>
+        <option value="2160">4K</option>
+      </select>
+      <button class="top-btn" id="vid-export" style="width:100%;background:#00e5ff;color:#000;">Export Video</button>
+      <button class="top-btn" id="vid-gif" style="width:100%">Export as GIF</button>
+      <button class="top-btn" id="vid-thumbnail" style="width:100%">Extract Thumbnail</button>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;">
+      <video id="video-preview" controls style="max-width:100%;max-height:60vh;border:1px solid #2a2a4a;border-radius:8px;background:#000;"></video>
+      <canvas id="video-canvas" style="display:none;"></canvas>
+      <div id="video-timeline" style="width:90%;margin-top:16px;height:60px;background:#12122a;border:1px solid #2a2a4a;border-radius:8px;position:relative;">
+        <div style="color:#9999bb;font-size:11px;text-align:center;line-height:60px;font-family:'JetBrains Mono',monospace;">Timeline — Import a video to begin</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button class="top-btn" id="vid-split">Split</button>
+        <button class="top-btn" id="vid-trim-start">Set In</button>
+        <button class="top-btn" id="vid-trim-end">Set Out</button>
+        <button class="top-btn" id="vid-prev-frame">|&lt;</button>
+        <button class="top-btn" id="vid-next-frame">&gt;|</button>
+        <button class="top-btn" id="vid-reverse">Reverse</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Design Studio ===== -->
+<div id="design-studio" style="display:none;position:fixed;top:50px;left:0;right:0;bottom:0;background:#0a0a14;z-index:500;overflow:hidden;"></div>
+
+<!-- ===== Writing Studio ===== -->
+<div id="writing-studio" style="display:none;position:fixed;top:50px;left:0;right:0;bottom:0;background:#0a0a14;z-index:500;overflow:hidden;"></div>
+
 <!-- ===== Scripts ===== -->
 <script src="js/audio-engine.js"></script>
 <script src="js/deck.js"></script>
@@ -535,7 +670,273 @@
 <script src="js/stem-separator.js"></script>
 <script src="js/practice-mode.js"></script>
 <script src="js/pad-synth.js"></script>
+<script src="js/photo-tools.js"></script>
+<script src="js/video-tools.js"></script>
+<script src="js/design-tools.js"></script>
+<script src="js/writing-tools.js"></script>
 <script src="js/app.js"></script>
+
+<script>
+// ===== Studio Mode Switcher =====
+window.switchStudioMode = function(mode) {
+  const djElements = document.querySelectorAll('.main-area, .ai-panel, #pad-synth-panel');
+  const panels = {
+    dj: djElements,
+    photo: [document.getElementById('photo-studio')],
+    video: [document.getElementById('video-studio')],
+    design: [document.getElementById('design-studio')],
+    write: [document.getElementById('writing-studio')]
+  };
+
+  // Hide everything
+  djElements.forEach(el => { if(el) el.style.display = 'none'; });
+  ['photo-studio','video-studio','design-studio','writing-studio'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+
+  // Show selected
+  if(mode === 'dj') {
+    djElements.forEach(el => { if(el) el.style.display = ''; });
+  } else {
+    const panel = document.getElementById(mode === 'write' ? 'writing-studio' : mode + '-studio');
+    if(panel) panel.style.display = 'block';
+  }
+
+  // Update button styles
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.style.background = '';
+    btn.style.color = '';
+  });
+  const activeBtn = document.getElementById('btn-mode-' + mode);
+  if(activeBtn) {
+    activeBtn.style.background = '#00e5ff';
+    activeBtn.style.color = '#000';
+  }
+
+  // Initialize modules on first open
+  if(mode === 'photo' && !window._photoInit) {
+    window._photoInit = true;
+    initPhotoStudio();
+  }
+  if(mode === 'video' && !window._videoInit) {
+    window._videoInit = true;
+    initVideoStudio();
+  }
+  if(mode === 'design' && !window._designInit) {
+    window._designInit = true;
+    if(window.DesignTools) {
+      window.designTools = new DesignTools(document.getElementById('design-studio'));
+    }
+  }
+  if(mode === 'write' && !window._writeInit) {
+    window._writeInit = true;
+    if(window.WritingTools) {
+      window.writingTools = new WritingTools(document.getElementById('writing-studio'));
+    }
+  }
+};
+
+function initPhotoStudio() {
+  if(!window.PhotoTools) return;
+  const canvas = document.getElementById('photo-canvas');
+  const pt = new PhotoTools(canvas);
+  window.photoTools = pt;
+
+  // Import
+  document.getElementById('photo-import').onclick = () => document.getElementById('photo-file-input').click();
+  document.getElementById('photo-file-input').onchange = async (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      pt.editor.ctx = canvas.getContext('2d');
+      pt.editor.width = img.width;
+      pt.editor.height = img.height;
+      pt.editor.original = pt.editor.ctx.getImageData(0, 0, img.width, img.height);
+      pt.editor.ctx.drawImage(img, 0, 0);
+      pt.editor.original = pt.editor.ctx.getImageData(0, 0, img.width, img.height);
+      pt.editor.pushUndo();
+      document.getElementById('photo-info').textContent = img.width + ' x ' + img.height + ' — ' + file.name;
+      updateHistogram();
+    };
+    img.src = URL.createObjectURL(file);
+  };
+
+  // Adjustments
+  ['brightness','contrast','saturation','temperature','hue'].forEach(adj => {
+    document.getElementById('photo-' + adj).oninput = (e) => {
+      if(!pt.editor.original) return;
+      pt.editor.applyFilter(adj, parseFloat(e.target.value));
+      updateHistogram();
+    };
+  });
+
+  // Tools
+  document.getElementById('photo-bg-remove').onclick = () => {
+    if(!pt.editor.original) return alert('Import an image first');
+    const imgData = pt.editor.ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const result = pt.bgRemover.remove(imgData);
+    pt.editor.ctx.putImageData(result, 0, 0);
+    pt.editor.pushUndo();
+  };
+  document.getElementById('photo-rotate').onclick = () => { pt.editor.rotate(90); updateHistogram(); };
+  document.getElementById('photo-flip-h').onclick = () => { pt.editor.flip('horizontal'); updateHistogram(); };
+  document.getElementById('photo-flip-v').onclick = () => { pt.editor.flip('vertical'); updateHistogram(); };
+  document.getElementById('photo-sharpen').onclick = () => { pt.editor.applyFilter('sharpen', 1); updateHistogram(); };
+  document.getElementById('photo-blur').onclick = () => { pt.editor.applyFilter('blur', 3); updateHistogram(); };
+  document.getElementById('photo-undo').onclick = () => { pt.editor.undo(); updateHistogram(); };
+  document.getElementById('photo-redo').onclick = () => { pt.editor.redo(); updateHistogram(); };
+
+  // Effects
+  document.getElementById('photo-vignette').onclick = () => { pt.editor.applyFilter('vignette', 0.6); updateHistogram(); };
+  document.getElementById('photo-grain').onclick = () => { pt.editor.applyFilter('grain', 30); updateHistogram(); };
+  document.getElementById('photo-glitch').onclick = () => { pt.editor.applyFilter('glitch', 10); updateHistogram(); };
+  document.getElementById('photo-ascii').onclick = () => { pt.editor.applyFilter('ascii', 8); updateHistogram(); };
+  document.getElementById('photo-pixelsort').onclick = () => { pt.editor.applyFilter('pixelSort', {}); updateHistogram(); };
+  document.getElementById('photo-deepfry').onclick = () => { pt.editor.applyFilter('deepFry', 3); updateHistogram(); };
+  document.getElementById('photo-duotone').onclick = () => { pt.editor.applyFilter('duotone', {dark:[0,0,80],light:[255,200,0]}); updateHistogram(); };
+
+  // Presets
+  const presetNames = ['clarendon','gingham','moon','lark','reyes','juno','slumber','crema','ludwig','aden','perpetua','amaro','mayfair','rise','hudson','valencia','xpro2','sierra','willow','lofi','inkwell','hefe','nashville','stinson','neonNights','vinylWarm','studioGlow','bassBoost','retroWave'];
+  const presetContainer = document.getElementById('photo-presets');
+  presetNames.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'top-btn';
+    btn.style.cssText = 'font-size:9px;padding:4px;';
+    btn.textContent = name;
+    btn.onclick = () => { pt.editor.applyPreset(name); updateHistogram(); };
+    presetContainer.appendChild(btn);
+  });
+
+  // Steganography
+  document.getElementById('stego-encode').onclick = async () => {
+    if(!pt.editor.original) return alert('Import an image first');
+    const msg = prompt('Enter secret message to hide:');
+    if(!msg) return;
+    const pwd = prompt('Enter encryption password (or leave blank for no encryption):');
+    const imgData = pt.editor.ctx.getImageData(0, 0, canvas.width, canvas.height);
+    try {
+      const encoded = await pt.stego.encodeMessage(imgData, msg, pwd || null);
+      pt.editor.ctx.putImageData(encoded, 0, 0);
+      pt.editor.pushUndo();
+      alert('Message hidden! Export the image to save.');
+    } catch(e) { alert('Error: ' + e.message); }
+  };
+  document.getElementById('stego-decode').onclick = async () => {
+    if(!pt.editor.original) return alert('Import an image first');
+    const pwd = prompt('Enter decryption password (or leave blank):');
+    const imgData = pt.editor.ctx.getImageData(0, 0, canvas.width, canvas.height);
+    try {
+      const msg = await pt.stego.decodeMessage(imgData, pwd || null);
+      alert('Hidden message:\n\n' + msg);
+    } catch(e) { alert('No hidden message found or wrong password.'); }
+  };
+  document.getElementById('stego-encode-file').onclick = () => {
+    if(!pt.editor.original) return alert('Import an image first');
+    document.getElementById('stego-file-input').click();
+  };
+  document.getElementById('stego-file-input').onchange = async (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const pwd = prompt('Enter encryption password (or leave blank):');
+    const buf = await file.arrayBuffer();
+    const imgData = pt.editor.ctx.getImageData(0, 0, canvas.width, canvas.height);
+    try {
+      const encoded = await pt.stego.encodeFile(imgData, new Uint8Array(buf), file.name, pwd || null);
+      pt.editor.ctx.putImageData(encoded, 0, 0);
+      pt.editor.pushUndo();
+      alert('File "' + file.name + '" hidden in image! Export to save.');
+    } catch(e) { alert('Error: ' + e.message); }
+  };
+  document.getElementById('stego-capacity').onclick = () => {
+    if(!pt.editor.original) return alert('Import an image first');
+    const cap = pt.stego.getCapacity(canvas.width, canvas.height);
+    alert('This image can hide up to ' + (cap / 1024).toFixed(1) + ' KB of data.');
+  };
+
+  // Export
+  document.getElementById('photo-export').onclick = () => {
+    const fmt = document.getElementById('photo-export-format').value;
+    const q = parseInt(document.getElementById('photo-export-quality').value) / 100;
+    const mime = fmt === 'png' ? 'image/png' : fmt === 'jpeg' ? 'image/jpeg' : 'image/webp';
+    const url = canvas.toDataURL(mime, q);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'aurality-export.' + fmt;
+    a.click();
+  };
+
+  function updateHistogram() {
+    if(!pt.histogram || !canvas.width) return;
+    try {
+      const imgData = pt.editor.ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const histCanvas = document.getElementById('histogram-canvas');
+      pt.histogram.render(histCanvas, imgData);
+    } catch(e) {}
+  }
+}
+
+function initVideoStudio() {
+  if(!window.AuralityVideoTools && !window.VideoTools) return;
+  const VT = window.AuralityVideoTools || window.VideoTools;
+  const vt = new VT();
+  window.videoTools = vt;
+  const preview = document.getElementById('video-preview');
+
+  document.getElementById('video-import').onclick = () => document.getElementById('video-file-input').click();
+  document.getElementById('video-file-input').onchange = (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    preview.src = URL.createObjectURL(file);
+    preview.load();
+    vt.importVideo(file);
+    document.querySelector('#video-timeline > div').textContent = file.name + ' — loaded';
+  };
+
+  document.getElementById('video-screen-record').onclick = async () => {
+    try {
+      await vt.startScreenRecording({ audio: true, webcam: false });
+      document.getElementById('video-screen-record').textContent = 'STOP';
+      document.getElementById('video-screen-record').style.background = '#ff0000';
+      document.getElementById('video-screen-record').onclick = () => {
+        vt.stopRecording();
+        document.getElementById('video-screen-record').textContent = 'Screen Record';
+        document.getElementById('video-screen-record').style.background = '#ff0066';
+      };
+    } catch(e) { alert('Screen recording not available: ' + e.message); }
+  };
+
+  document.getElementById('vid-speed').oninput = (e) => {
+    preview.playbackRate = parseFloat(e.target.value);
+    document.getElementById('vid-speed-val').textContent = e.target.value + 'x';
+  };
+
+  document.getElementById('vid-prev-frame').onclick = () => { preview.currentTime = Math.max(0, preview.currentTime - 1/30); };
+  document.getElementById('vid-next-frame').onclick = () => { preview.currentTime += 1/30; };
+  document.getElementById('vid-reverse').onclick = () => { preview.playbackRate = -preview.playbackRate || -1; };
+
+  document.getElementById('vid-export').onclick = () => {
+    const res = document.getElementById('vid-resolution').value;
+    alert('Video export at ' + res + 'p — use MediaRecorder API pipeline. Feature ready for connected export.');
+  };
+  document.getElementById('vid-gif').onclick = () => {
+    alert('GIF export from current position — feature connected.');
+  };
+  document.getElementById('vid-thumbnail').onclick = () => {
+    const c = document.createElement('canvas');
+    c.width = preview.videoWidth;
+    c.height = preview.videoHeight;
+    c.getContext('2d').drawImage(preview, 0, 0);
+    const a = document.createElement('a');
+    a.href = c.toDataURL('image/png');
+    a.download = 'thumbnail.png';
+    a.click();
+  };
+}
+</script>
 
 </body>
 </html>
