@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aurality-studio-v1';
+const CACHE_NAME = 'aurality-studio-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -16,6 +16,7 @@ const ASSETS = [
   '/js/recorder.js',
   '/js/stem-separator.js',
   '/js/practice-mode.js',
+  '/creator-hub.html',
   '/manifest.json'
 ];
 
