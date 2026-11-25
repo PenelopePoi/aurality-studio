@@ -401,7 +401,8 @@ class AuralityApp {
   }
 
   _handleKeyboard(e) {
-    // Prevent default for DJ shortcuts
+    // Preserve typing and editing in all studio panels.
+    if (e.target?.closest?.('input, textarea, select, [contenteditable]:not([contenteditable=false])')) return;
     const key = e.key.toLowerCase();
 
     switch (key) {
@@ -439,7 +440,10 @@ class AuralityApp {
       this._toggleClass('btn-record', 'recording', false);
       this._setDisplay('rec-indicator', false);
     } else {
-      this.recorder.start();
+      if (!this.recorder.start()) {
+        window.alert(this.recorder.lastError || 'Recording could not start.');
+        return;
+      }
       this._toggleClass('btn-record', 'recording', true);
       this._setDisplay('rec-indicator', true);
     }

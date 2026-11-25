@@ -18,3 +18,12 @@ Explicit save in browser storage; JSON download; browser print/PDF; deletion con
 
 ## Validation
 Worksheet DOM interaction checks passed: explicit local save, JSON export creation, print invocation, and deletion. AleXelA calculator valid/invalid margin checks passed. Soul Print and Soul & Sentence builds passed; AleXelA's 92 existing tests passed. Aurality app.js syntax check passed. Full visual/mobile and hardware testing has not been completed; local browser installation failed. No claim is made that all original tools pass end-to-end testing.
+
+## Continued work — Recording reliability
+- Recorder preserves actual media MIME and filename extension; failed WAV conversion now errors instead of returning another format.
+- Recording start failures no longer enable a false recording indicator.
+- DJ keyboard shortcuts now leave text fields and editable controls alone.
+- Four recorder tests pass, including PCM WAV header/sample-length validation.
+- Creator workbook supports validated notes import.
+
+Hosting remains blocked for new projects by Vercel account permissions. No new live URL is claimed.

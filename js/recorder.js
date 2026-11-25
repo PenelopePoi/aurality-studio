@@ -1,6 +1,6 @@
 /**
  * Aurality Studio — Performance Recorder
- * Records entire mix as WAV with session timeline.
+ * Records the mix in a browser-supported format with explicit WAV conversion.
  */
 class Recorder {
   constructor(engine) {
@@ -14,10 +14,14 @@ class Recorder {
     this.timeline = []; // Session events
     this.destination = null;
     this.stream = null;
+    this.mimeType = '';
+    this.lastError = null;
+    this.recordingUrl = null;
   }
 
   start() {
-    if (this.isRecording) return;
+    if (this.isRecording) return true;
+    this.lastError = null;
 
     try {
       // Create a MediaStream from the audio context destination
@@ -39,6 +43,7 @@ class Recorder {
       }
 
       this.mediaRecorder = new MediaRecorder(this.stream, options);
+      this.mimeType = this.mediaRecorder.mimeType || options.mimeType || '';
       this.chunks = [];
       this.timeline = [];
 
@@ -56,9 +61,13 @@ class Recorder {
       this.startTime = Date.now();
 
       this.addEvent('recording-start', 'Recording started');
-      console.log('[Recorder] Started');
+      return true;
     } catch (e) {
-      console.error('[Recorder] Failed to start:', e);
+      this.lastError = e.message || 'Recording is unavailable in this browser.';
+      this.isRecording = false;
+      try { this.engine.masterGain.disconnect(this.destination); } catch {}
+      this.stream?.getTracks().forEach(track => track.stop());
+      return false;
     }
   }
 
@@ -107,14 +116,18 @@ class Recorder {
   _finalizeRecording() {
     if (this.chunks.length === 0) return;
 
-    const blob = new Blob(this.chunks, { type: 'audio/webm' });
+    const mimeType = this.mimeType || this.chunks[0]?.type || 'application/octet-stream';
+    const blob = new Blob(this.chunks, { type: mimeType });
+    if (this.recordingUrl) URL.revokeObjectURL(this.recordingUrl);
     const url = URL.createObjectURL(blob);
+    this.recordingUrl = url;
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
 
     // Auto-download
     const a = document.createElement('a');
     a.href = url;
-    a.download = `aurality-mix-${timestamp}.webm`;
+    const ext = mimeType.includes('ogg') ? 'ogg' : mimeType.includes('mp4') ? 'm4a' : mimeType.includes('webm') ? 'webm' : 'bin';
+    a.download = `aurality-mix-${timestamp}.${ext}`;
 
     // Dispatch event with recording data
     window.dispatchEvent(new CustomEvent('recording-complete', {
@@ -144,15 +157,14 @@ class Recorder {
   async exportAsWAV() {
     if (this.chunks.length === 0) return null;
 
-    const blob = new Blob(this.chunks, { type: 'audio/webm' });
+    const blob = new Blob(this.chunks, { type: this.mimeType || this.chunks[0]?.type || 'application/octet-stream' });
     const arrayBuffer = await blob.arrayBuffer();
 
     try {
       const audioBuffer = await this.engine.ctx.decodeAudioData(arrayBuffer);
       return this._audioBufferToWAV(audioBuffer);
     } catch (e) {
-      console.warn('[Recorder] WAV export failed, returning webm');
-      return blob;
+      throw new Error('WAV conversion failed. Download the original recording format instead.');
     }
   }
 
