@@ -2,7 +2,7 @@
 
 A professional browser-based DJ application and creative audio workstation built as a Progressive Web App. Aurality Studio delivers a full dual-deck mixing environment with AI-powered harmonic assistance, real-time effects, stem separation, MIDI controller support, and audio-reactive visuals -- all running entirely in the browser with zero backend dependencies.
 
-A project of **Aurality**, a 501(c)(3) nonprofit organization dedicated to making professional-grade creative tools accessible to everyone.
+A project of **Aurality**, a developing creative-platform initiative dedicated to making professional-grade creative tools accessible to everyone.
 
 ## Features
 
@@ -34,7 +34,7 @@ A project of **Aurality**, a 501(c)(3) nonprofit organization dedicated to makin
 - AI-generated playlist ordering
 
 ### Stem Separation
-- Real-time frequency-band stem isolation: vocals, drums, bass, melody
+- Frequency-band isolation approximations (not AI separation of true vocals, drums, bass, or melody)
 - Per-stem mute/solo controls per channel
 
 ### 808 Drum Machine and Pad Synth
@@ -163,7 +163,7 @@ HTTPS is recommended to enable PWA installation and Service Worker caching.
 
 ## Funding
 
-Aurality is a 501(c)(3) nonprofit. Development is sustained through grants, donations, and community support. If you would like to contribute to the mission of making professional creative tools accessible, please reach out.
+No approved tax-exempt status is asserted here. Development is sustained through grants, donations, and community support. If you would like to contribute to the mission of making professional creative tools accessible, please reach out.
 
 ## License
 
